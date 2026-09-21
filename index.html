@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Marina ✨</title>
 
 <style>
@@ -17,176 +17,30 @@ html,body{
     height:100%;
     overflow:hidden;
     background:#01010a;
-    color:white;
     font-family:Georgia,"Times New Roman",serif;
+    color:white;
     touch-action:none;
 }
 
-/* =========================
-   UNIVERSO
-========================= */
-
-#universe{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 50% 45%,#21155c 0%,#0c0730 35%,#030314 72%,#010108 100%);
-    transition:transform 1.8s ease, filter 1.8s ease;
+canvas{
+    display:block;
 }
 
-#universe.zooming{
-    transform:scale(1.25);
-    filter:brightness(1.15);
-}
-
-.nebula{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(70px);
-    pointer-events:none;
-    opacity:.25;
-    animation:nebulaMove 12s ease-in-out infinite alternate;
-}
-
-.nebula.one{
-    width:90vw;
-    height:70vw;
-    left:-35vw;
-    top:5vh;
-    background:#754cff;
-}
-
-.nebula.two{
-    width:90vw;
-    height:80vw;
-    right:-40vw;
-    bottom:-25vh;
-    background:#e95caa;
-    animation-delay:3s;
-}
-
-.nebula.three{
-    width:70vw;
-    height:70vw;
-    left:30vw;
-    top:35vh;
-    background:#287cff;
-    opacity:.12;
-    animation-delay:6s;
-}
-
-@keyframes nebulaMove{
-    from{transform:translate(0,0) scale(1)}
-    to{transform:translate(7vw,-4vh) scale(1.12)}
-}
-
-/* =========================
-   ESTRELLAS
-========================= */
-
-#stars{
-    position:absolute;
-    inset:0;
-}
-
-.star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    border-radius:50%;
-    background:white;
-    animation:twinkle var(--speed) ease-in-out infinite alternate;
-}
-
-@keyframes twinkle{
-    from{
-        opacity:.15;
-        transform:scale(.5);
-    }
-    to{
-        opacity:1;
-        transform:scale(1.8);
-    }
-}
-
-/* =========================
-   PLANETAS
-========================= */
-
-.planet{
-    position:absolute;
-    border-radius:50%;
-    pointer-events:none;
-    box-shadow:
-        0 0 30px rgba(255,255,255,.12),
-        inset -15px -15px 30px rgba(0,0,0,.35);
-}
-
-.planet.one{
-    width:95px;
-    height:95px;
-    left:5%;
-    top:18%;
-    background:
-        radial-gradient(circle at 30% 25%,#ffd9ff,#9d62db 45%,#27144c 75%);
-    animation:planetFloat 8s ease-in-out infinite;
-}
-
-.planet.two{
-    width:58px;
-    height:58px;
-    right:10%;
-    top:28%;
-    background:
-        radial-gradient(circle at 30% 25%,#fff1bd,#d48745 48%,#47231b);
-    animation:planetFloat 10s ease-in-out infinite reverse;
-}
-
-.planet.three{
-    width:130px;
-    height:130px;
-    right:-45px;
-    bottom:7%;
-    background:
-        radial-gradient(circle at 30% 25%,#d5e7ff,#5277c5 48%,#111c4a);
-    animation:planetFloat 11s ease-in-out infinite;
-}
-
-.planet.three:after{
-    content:"";
-    position:absolute;
-    width:170px;
-    height:35px;
-    border:2px solid rgba(210,225,255,.25);
-    border-radius:50%;
-    top:45px;
-    left:-20px;
-    transform:rotate(-18deg);
-}
-
-@keyframes planetFloat{
-    0%,100%{transform:translateY(0) rotate(0deg)}
-    50%{transform:translateY(-18px) rotate(5deg)}
-}
-
-/* =========================
-   INTRO
-========================= */
+/* INTRO */
 
 #intro{
     position:fixed;
     inset:0;
-    z-index:500;
+    z-index:1000;
     display:flex;
     align-items:center;
     justify-content:center;
     flex-direction:column;
     background:#01010a;
-    transition:opacity 1.5s ease,transform 1.5s ease;
+    transition:opacity 1.5s,transform 1.5s;
 }
 
-#intro.hidden{
+#intro.hide{
     opacity:0;
     transform:scale(1.7);
     pointer-events:none;
@@ -198,283 +52,177 @@ html,body{
     letter-spacing:10px;
     text-shadow:
         0 0 10px white,
-        0 0 35px #a98cff,
-        0 0 70px #7254ff;
-    animation:introGlow 3s ease-in-out infinite alternate;
+        0 0 35px #a78cff,
+        0 0 70px #694cff;
 }
 
-.intro-subtitle{
+.intro-sub{
     margin-top:18px;
-    font-size:14px;
+    font-size:13px;
     letter-spacing:4px;
     opacity:.65;
 }
 
 .intro-button{
     margin-top:45px;
-    padding:14px 30px;
+    padding:14px 32px;
     border-radius:40px;
     border:1px solid rgba(255,255,255,.3);
     background:rgba(255,255,255,.08);
     color:white;
     font-family:Georgia,serif;
     font-size:15px;
-    backdrop-filter:blur(10px);
-    animation:pulseButton 2s infinite;
 }
 
-@keyframes introGlow{
-    from{filter:brightness(.9)}
-    to{filter:brightness(1.3)}
-}
+/* HUD */
 
-@keyframes pulseButton{
-    0%,100%{box-shadow:0 0 0 rgba(255,255,255,0)}
-    50%{box-shadow:0 0 30px rgba(180,150,255,.25)}
-}
-
-/* =========================
-   TITULO
-========================= */
-
-.title{
-    position:absolute;
+#hud{
+    position:fixed;
     top:6%;
+    left:0;
     width:100%;
+    z-index:50;
     text-align:center;
-    z-index:10;
     pointer-events:none;
+    transition:opacity 1s;
 }
 
-.title h1{
-    font-size:clamp(40px,13vw,90px);
+#hud h1{
+    font-size:clamp(40px,13vw,85px);
     font-weight:normal;
     letter-spacing:8px;
     text-shadow:
         0 0 10px white,
-        0 0 30px #a68cff,
-        0 0 55px #694fff;
+        0 0 30px #a78cff,
+        0 0 60px #694cff;
 }
 
-.title p{
+#hud p{
     margin-top:8px;
     font-size:13px;
     letter-spacing:3px;
-    opacity:.65;
+    opacity:.6;
 }
 
-/* =========================
-   INDICADOR
-========================= */
-
-.hint{
-    position:absolute;
-    left:50%;
+#hint{
+    position:fixed;
     bottom:5%;
+    left:50%;
     transform:translateX(-50%);
-    z-index:15;
-    text-align:center;
+    z-index:50;
     font-size:12px;
     letter-spacing:2px;
-    opacity:.5;
-    pointer-events:none;
+    opacity:.55;
     white-space:nowrap;
+    pointer-events:none;
 }
 
-/* =========================
-   FLORES
-========================= */
+/* MENSAJES */
 
-.flower{
-    position:absolute;
-    width:82px;
-    height:82px;
-    border:0;
-    background:transparent;
-    z-index:30;
-    cursor:pointer;
-    animation:flowerFloat 4s ease-in-out infinite;
-    transition:filter .4s,opacity .4s;
-}
-
-.flower:not(.locked):active{
-    transform:scale(.9);
-}
-
-.flower.locked{
-    opacity:.35;
-    filter:grayscale(.7);
-}
-
-.flower.found{
-    filter:drop-shadow(0 0 18px #ffe96b);
-}
-
-.flower .center{
-    position:absolute;
-    width:23px;
-    height:23px;
-    left:29px;
-    top:29px;
-    border-radius:50%;
-    background:#e7a51b;
-    box-shadow:0 0 20px #ffd94d;
-    z-index:5;
-}
-
-.petal{
-    position:absolute;
-    width:29px;
-    height:42px;
-    left:25px;
-    top:19px;
-    border-radius:50%;
-    background:linear-gradient(#fff77d,#e6a817);
-    transform-origin:15px 21px;
-    box-shadow:0 0 14px rgba(255,215,70,.5);
-    transition:transform .7s cubic-bezier(.2,.8,.2,1);
-}
-
-.p1{transform:rotate(0deg) translateY(-19px)}
-.p2{transform:rotate(60deg) translateY(-19px)}
-.p3{transform:rotate(120deg) translateY(-19px)}
-.p4{transform:rotate(180deg) translateY(-19px)}
-.p5{transform:rotate(240deg) translateY(-19px)}
-.p6{transform:rotate(300deg) translateY(-19px)}
-
-.flower.opening .p1{transform:rotate(-35deg) translateY(-31px) scale(1.1)}
-.flower.opening .p2{transform:rotate(25deg) translateY(-31px) scale(1.1)}
-.flower.opening .p3{transform:rotate(95deg) translateY(-31px) scale(1.1)}
-.flower.opening .p4{transform:rotate(175deg) translateY(-31px) scale(1.1)}
-.flower.opening .p5{transform:rotate(245deg) translateY(-31px) scale(1.1)}
-.flower.opening .p6{transform:rotate(315deg) translateY(-31px) scale(1.1)}
-
-.flower-number{
-    position:absolute;
-    top:88px;
-    width:100%;
-    text-align:center;
-    font-family:Arial,sans-serif;
-    font-size:13px;
-    color:#fff;
-    opacity:.8;
-}
-
-@keyframes flowerFloat{
-    0%,100%{margin-top:0}
-    50%{margin-top:-12px}
-}
-
-/* POSICIONES */
-
-.f1{
-    left:13%;
-    top:38%;
-}
-
-.f2{
-    right:13%;
-    top:47%;
-    animation-delay:.7s;
-}
-
-.f3{
-    left:20%;
-    bottom:15%;
-    animation-delay:1.4s;
-}
-
-.f4{
-    right:17%;
-    bottom:16%;
-    animation-delay:2.1s;
-}
-
-/* =========================
-   MENSAJE
-========================= */
-
-#messageScreen{
+#message{
     position:fixed;
     inset:0;
-    z-index:1000;
+    z-index:500;
     display:none;
     align-items:center;
     justify-content:center;
     padding:25px;
-    background:rgba(1,1,10,.86);
+    background:rgba(2,1,14,.86);
     backdrop-filter:blur(18px);
 }
 
-#messageScreen.show{
+#message.show{
     display:flex;
-    animation:screenIn .6s ease;
+    animation:fadeIn .7s;
 }
 
-.message{
+.message-box{
     width:min(650px,100%);
     max-height:90vh;
     overflow:auto;
     text-align:center;
-    padding:30px 22px;
+    padding:30px 20px;
 }
 
-.message-flower{
-    position:relative;
+.fake-flower{
+    width:90px;
+    height:90px;
     margin:0 auto 35px;
-    transform:scale(.8);
-    animation:none;
+    position:relative;
+    filter:drop-shadow(0 0 22px #ffe66b);
+    animation:flowerOpen 1.5s ease;
 }
 
-.message h2{
+.fake-petal{
+    position:absolute;
+    width:30px;
+    height:48px;
+    left:30px;
+    top:21px;
+    border-radius:60% 60% 45% 45%;
+    background:linear-gradient(135deg,#fffca0,#f0b21e);
+    transform-origin:15px 24px;
+    box-shadow:
+        inset -5px -5px 10px rgba(120,70,0,.25),
+        0 0 12px rgba(255,220,70,.5);
+}
+
+.fp1{transform:rotate(0deg) translateY(-20px)}
+.fp2{transform:rotate(60deg) translateY(-20px)}
+.fp3{transform:rotate(120deg) translateY(-20px)}
+.fp4{transform:rotate(180deg) translateY(-20px)}
+.fp5{transform:rotate(240deg) translateY(-20px)}
+.fp6{transform:rotate(300deg) translateY(-20px)}
+
+.fake-center{
+    position:absolute;
+    width:25px;
+    height:25px;
+    left:33px;
+    top:33px;
+    border-radius:50%;
+    background:#d89416;
+    box-shadow:0 0 20px #ffd84d;
+}
+
+#message h2{
     color:#ffe86b;
+    font-size:28px;
     font-weight:normal;
-    font-size:27px;
-    margin-bottom:22px;
-    text-shadow:0 0 18px rgba(255,220,70,.6);
+    margin-bottom:25px;
+    text-shadow:0 0 20px #d9a91d;
 }
 
-.message p{
+#message p{
     font-size:18px;
     line-height:1.75;
-    color:#fff;
 }
 
 .close{
     margin-top:30px;
-    padding:13px 26px;
-    border:1px solid rgba(255,255,255,.3);
+    padding:13px 28px;
     border-radius:30px;
+    border:1px solid rgba(255,255,255,.3);
     background:rgba(255,255,255,.08);
     color:white;
     font-family:Georgia,serif;
-    font-size:14px;
 }
 
-@keyframes screenIn{
-    from{opacity:0}
-    to{opacity:1}
-}
-
-/* =========================
-   AVISO
-========================= */
+/* AVISO */
 
 #notice{
     position:fixed;
+    bottom:13%;
     left:50%;
-    bottom:12%;
-    transform:translate(-50%,30px);
-    z-index:2000;
-    padding:12px 20px;
+    transform:translate(-50%,20px);
+    z-index:800;
+    padding:12px 22px;
     border-radius:30px;
-    background:rgba(10,8,35,.9);
-    border:1px solid rgba(255,255,255,.18);
-    backdrop-filter:blur(10px);
-    font-size:13px;
+    background:rgba(10,7,35,.9);
+    border:1px solid rgba(255,255,255,.2);
     opacity:0;
+    transition:.4s;
     pointer-events:none;
-    transition:.5s;
     white-space:nowrap;
 }
 
@@ -483,84 +231,26 @@ html,body{
     transform:translate(-50%,0);
 }
 
-/* =========================
-   ZOOM FINAL
-========================= */
+/* FINAL ZOOM */
 
-#zoomScene{
+#zoom{
     position:fixed;
     inset:0;
-    z-index:1500;
+    z-index:700;
     display:none;
     overflow:hidden;
     background:
-        radial-gradient(circle at center,#171044 0%,#070521 45%,#01010a 100%);
+        radial-gradient(circle,#1d155e 0%,#080525 45%,#01010a 100%);
 }
 
-#zoomScene.active{
+#zoom.show{
     display:block;
 }
 
-.zoom-star{
+#zoomText{
     position:absolute;
-    width:2px;
-    height:2px;
-    background:white;
-    border-radius:50%;
-}
-
-#zoomWorld{
-    position:absolute;
-    width:100%;
-    height:100%;
-    transform-origin:center;
-    transition:transform .15s linear;
-}
-
-.zoom-final-flower{
-    position:absolute;
+    top:9%;
     left:50%;
-    top:50%;
-    width:120px;
-    height:120px;
-    transform:translate(-50%,-50%) scale(.45);
-    opacity:.15;
-    filter:drop-shadow(0 0 10px #ffe66b);
-    transition:opacity 1.5s,filter 1.5s;
-}
-
-#zoomScene.revealed .zoom-final-flower{
-    opacity:1;
-    filter:drop-shadow(0 0 50px #ffe66b);
-}
-
-.zoom-final-flower .petal{
-    width:42px;
-    height:62px;
-    left:39px;
-    top:29px;
-    transform-origin:21px 31px;
-    background:linear-gradient(#fff77d,#e7a817);
-}
-
-.zoom-final-flower .p1{transform:rotate(0deg) translateY(-28px)}
-.zoom-final-flower .p2{transform:rotate(60deg) translateY(-28px)}
-.zoom-final-flower .p3{transform:rotate(120deg) translateY(-28px)}
-.zoom-final-flower .p4{transform:rotate(180deg) translateY(-28px)}
-.zoom-final-flower .p5{transform:rotate(240deg) translateY(-28px)}
-.zoom-final-flower .p6{transform:rotate(300deg) translateY(-28px)}
-
-.zoom-final-flower .center{
-    width:32px;
-    height:32px;
-    left:44px;
-    top:44px;
-}
-
-.zoom-instruction{
-    position:absolute;
-    left:50%;
-    top:10%;
     transform:translateX(-50%);
     width:90%;
     text-align:center;
@@ -569,167 +259,133 @@ html,body{
     opacity:.65;
 }
 
+#finalFlower{
+    position:absolute;
+    width:150px;
+    height:150px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) scale(.2);
+    opacity:.1;
+    transition:
+        transform 2s ease,
+        opacity 2s ease,
+        filter 2s ease;
+    filter:drop-shadow(0 0 5px #ffe66b);
+}
+
+#zoom.revealed #finalFlower{
+    transform:translate(-50%,-50%) scale(1);
+    opacity:1;
+    filter:drop-shadow(0 0 55px #ffe66b);
+}
+
+.final-petal{
+    position:absolute;
+    width:48px;
+    height:70px;
+    left:51px;
+    top:40px;
+    border-radius:60%;
+    background:linear-gradient(135deg,#ffffa0,#e6a817);
+    transform-origin:24px 35px;
+    box-shadow:
+        inset -7px -8px 12px rgba(120,70,0,.25),
+        0 0 20px rgba(255,220,70,.55);
+}
+
+.fnp1{transform:rotate(0deg) translateY(-34px)}
+.fnp2{transform:rotate(60deg) translateY(-34px)}
+.fnp3{transform:rotate(120deg) translateY(-34px)}
+.fnp4{transform:rotate(180deg) translateY(-34px)}
+.fnp5{transform:rotate(240deg) translateY(-34px)}
+.fnp6{transform:rotate(300deg) translateY(-34px)}
+
+.final-center{
+    position:absolute;
+    width:38px;
+    height:38px;
+    left:56px;
+    top:56px;
+    border-radius:50%;
+    background:#dc9518;
+    box-shadow:0 0 30px #ffd84d;
+}
+
 #love{
     position:absolute;
+    top:72%;
     left:50%;
-    top:70%;
-    transform:translate(-50%,-50%) scale(.4);
+    transform:translate(-50%,-50%) scale(.3);
     opacity:0;
-    font-size:clamp(42px,12vw,90px);
+    font-size:clamp(40px,12vw,90px);
     white-space:nowrap;
     letter-spacing:7px;
     text-shadow:
         0 0 10px white,
-        0 0 30px #8ce3ff,
-        0 0 65px #42bfff;
-    transition:opacity 2s,transform 2s;
+        0 0 35px #8de5ff,
+        0 0 70px #39baff;
+    transition:2s;
 }
 
-#zoomScene.revealed #love{
+#zoom.revealed #love{
     opacity:1;
     transform:translate(-50%,-50%) scale(1);
 }
 
-/* =========================
-   FINAL
-========================= */
-
-#finalScreen{
-    position:fixed;
-    inset:0;
-    z-index:3000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    background:#01010a;
-}
-
-#finalScreen.show{
-    display:flex;
-    animation:finalIn 2s ease;
-}
-
-.final-text{
-    font-size:clamp(45px,14vw,100px);
-    letter-spacing:8px;
-    text-shadow:
-        0 0 10px white,
-        0 0 35px #8ce3ff,
-        0 0 70px #42bfff;
-    animation:finalGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes finalIn{
+@keyframes fadeIn{
     from{opacity:0}
     to{opacity:1}
 }
 
-@keyframes finalGlow{
-    from{filter:brightness(.9)}
-    to{filter:brightness(1.35)}
+@keyframes flowerOpen{
+    from{
+        transform:scale(.3) rotate(-20deg);
+        opacity:0;
+    }
+    to{
+        transform:scale(1) rotate(0);
+        opacity:1;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- INTRO -->
 <div id="intro">
     <div class="intro-title">Marina</div>
-    <div class="intro-subtitle">un pequeño universo para ti</div>
-    <button class="intro-button" onclick="startUniverse()">Entrar ✨</button>
+    <div class="intro-sub">un pequeño universo para ti</div>
+    <button class="intro-button" onclick="enterUniverse()">
+        Entrar ✨
+    </button>
 </div>
 
-<!-- UNIVERSO -->
-<div id="universe">
-
-    <div class="nebula one"></div>
-    <div class="nebula two"></div>
-    <div class="nebula three"></div>
-
-    <div id="stars"></div>
-
-    <div class="planet one"></div>
-    <div class="planet two"></div>
-    <div class="planet three"></div>
-
-    <div class="title">
-        <h1>Marina</h1>
-        <p>encuentra las cuatro flores</p>
-    </div>
-
-    <!-- FLOR 1 -->
-    <button class="flower f1" id="flower1" onclick="openMessage(1)">
-        <span class="petal p1"></span>
-        <span class="petal p2"></span>
-        <span class="petal p3"></span>
-        <span class="petal p4"></span>
-        <span class="petal p5"></span>
-        <span class="petal p6"></span>
-        <span class="center"></span>
-        <span class="flower-number">①</span>
-    </button>
-
-    <!-- FLOR 2 -->
-    <button class="flower f2 locked" id="flower2" onclick="openMessage(2)">
-        <span class="petal p1"></span>
-        <span class="petal p2"></span>
-        <span class="petal p3"></span>
-        <span class="petal p4"></span>
-        <span class="petal p5"></span>
-        <span class="petal p6"></span>
-        <span class="center"></span>
-        <span class="flower-number">②</span>
-    </button>
-
-    <!-- FLOR 3 -->
-    <button class="flower f3 locked" id="flower3" onclick="openMessage(3)">
-        <span class="petal p1"></span>
-        <span class="petal p2"></span>
-        <span class="petal p3"></span>
-        <span class="petal p4"></span>
-        <span class="petal p5"></span>
-        <span class="petal p6"></span>
-        <span class="center"></span>
-        <span class="flower-number">③</span>
-    </button>
-
-    <!-- FLOR 4 -->
-    <button class="flower f4 locked" id="flower4" onclick="openMessage(4)">
-        <span class="petal p1"></span>
-        <span class="petal p2"></span>
-        <span class="petal p3"></span>
-        <span class="petal p4"></span>
-        <span class="petal p5"></span>
-        <span class="petal p6"></span>
-        <span class="center"></span>
-        <span class="flower-number">④</span>
-    </button>
-
-    <div class="hint">
-        Cada flor guarda una parte de esto ✨
-    </div>
-
+<div id="hud">
+    <h1>Marina</h1>
+    <p>encuentra las cuatro flores</p>
 </div>
 
-<!-- MENSAJE -->
-<div id="messageScreen">
+<div id="hint">
+    Desliza para explorar el universo ✨
+</div>
 
-    <div class="message">
+<div id="notice"></div>
 
-        <div class="flower message-flower opening">
-            <span class="petal p1"></span>
-            <span class="petal p2"></span>
-            <span class="petal p3"></span>
-            <span class="petal p4"></span>
-            <span class="petal p5"></span>
-            <span class="petal p6"></span>
-            <span class="center"></span>
+<div id="message">
+    <div class="message-box">
+
+        <div class="fake-flower">
+            <span class="fake-petal fp1"></span>
+            <span class="fake-petal fp2"></span>
+            <span class="fake-petal fp3"></span>
+            <span class="fake-petal fp4"></span>
+            <span class="fake-petal fp5"></span>
+            <span class="fake-petal fp6"></span>
+            <span class="fake-center"></span>
         </div>
 
         <h2 id="messageTitle"></h2>
-
         <p id="messageText"></p>
 
         <button class="close" onclick="closeMessage()">
@@ -737,31 +393,25 @@ html,body{
         </button>
 
     </div>
-
 </div>
 
-<!-- ESCENA DE ZOOM -->
-<div id="zoomScene">
+<div id="zoom">
 
-    <div id="zoomWorld">
-
-        <div class="zoom-final-flower flower opening">
-
-            <span class="petal p1"></span>
-            <span class="petal p2"></span>
-            <span class="petal p3"></span>
-            <span class="petal p4"></span>
-            <span class="petal p5"></span>
-            <span class="petal p6"></span>
-
-            <span class="center"></span>
-
-        </div>
-
+    <div id="zoomText">
+        Ahora acércate con dos dedos... 🤍
     </div>
 
-    <div class="zoom-instruction" id="zoomInstruction">
-        Ahora acércate con dos dedos... 🤍
+    <div id="finalFlower">
+
+        <span class="final-petal fnp1"></span>
+        <span class="final-petal fnp2"></span>
+        <span class="final-petal fnp3"></span>
+        <span class="final-petal fnp4"></span>
+        <span class="final-petal fnp5"></span>
+        <span class="final-petal fnp6"></span>
+
+        <span class="final-center"></span>
+
     </div>
 
     <div id="love">
@@ -770,50 +420,529 @@ html,body{
 
 </div>
 
-<!-- FINAL -->
-<div id="finalScreen">
-    <div class="final-text">TE AMO 🩵</div>
-</div>
-
-<div id="notice"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
 
-/* =========================
-   ESTRELLAS
-========================= */
+/* =====================================
+   ESCENA 3D
+===================================== */
 
-const stars = document.getElementById("stars");
+const scene=new THREE.Scene();
 
-for(let i=0;i<260;i++){
+scene.background=new THREE.Color(0x01010a);
 
-    const star=document.createElement("span");
+scene.fog=new THREE.FogExp2(
+    0x080525,
+    0.0018
+);
 
-    star.className="star";
+const camera=new THREE.PerspectiveCamera(
+    60,
+    innerWidth/innerHeight,
+    .1,
+    2000
+);
 
-    star.style.left=Math.random()*100+"%";
-    star.style.top=Math.random()*100+"%";
+camera.position.set(0,0,20);
 
-    star.style.setProperty(
-        "--speed",
-        (1.5+Math.random()*4)+"s"
+const renderer=new THREE.WebGLRenderer({
+    antialias:true,
+    alpha:true
+});
+
+renderer.setPixelRatio(
+    Math.min(devicePixelRatio,2)
+);
+
+renderer.setSize(
+    innerWidth,
+    innerHeight
+);
+
+document.body.insertBefore(
+    renderer.domElement,
+    document.body.firstChild
+);
+
+
+/* =====================================
+   LUCES
+===================================== */
+
+const ambient=new THREE.AmbientLight(
+    0xffffff,
+    1.2
+);
+
+scene.add(ambient);
+
+const light=new THREE.PointLight(
+    0xffd85c,
+    3,
+    80
+);
+
+light.position.set(0,2,8);
+
+scene.add(light);
+
+
+/* =====================================
+   ESTRELLAS 3D
+===================================== */
+
+const starGeometry=
+    new THREE.BufferGeometry();
+
+const starPositions=[];
+
+for(let i=0;i<2200;i++){
+
+    starPositions.push(
+        (Math.random()-.5)*220,
+        (Math.random()-.5)*150,
+        (Math.random()-.5)*180
+    );
+}
+
+starGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(
+        starPositions,
+        3
+    )
+);
+
+const starMaterial=
+    new THREE.PointsMaterial({
+        color:0xffffff,
+        size:.18,
+        transparent:true,
+        opacity:.9
+    });
+
+const starField=
+    new THREE.Points(
+        starGeometry,
+        starMaterial
     );
 
-    star.style.animationDelay=
-        Math.random()*4+"s";
+scene.add(starField);
 
-    const size=Math.random()<.9 ? 1.5 : 3;
 
-    star.style.width=size+"px";
-    star.style.height=size+"px";
+/* =====================================
+   NEBULOSAS
+===================================== */
 
-    stars.appendChild(star);
+function createNebula(color,x,y,z,size){
+
+    const geometry=
+        new THREE.SphereGeometry(size,32,32);
+
+    const material=
+        new THREE.MeshBasicMaterial({
+            color:color,
+            transparent:true,
+            opacity:.08
+        });
+
+    const mesh=
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+    mesh.position.set(x,y,z);
+
+    scene.add(mesh);
+
+    return mesh;
+}
+
+const nebula1=
+    createNebula(
+        0x6633ff,
+        -30,
+        10,
+        -50,
+        35
+    );
+
+const nebula2=
+    createNebula(
+        0xff4eae,
+        30,
+        -15,
+        -70,
+        40
+    );
+
+
+/* =====================================
+   PLANETAS
+===================================== */
+
+function createPlanet(
+    color,
+    size,
+    x,
+    y,
+    z
+){
+
+    const geometry=
+        new THREE.SphereGeometry(
+            size,
+            40,
+            40
+        );
+
+    const material=
+        new THREE.MeshStandardMaterial({
+            color:color,
+            roughness:.8,
+            metalness:.1
+        });
+
+    const planet=
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+    planet.position.set(x,y,z);
+
+    scene.add(planet);
+
+    return planet;
+}
+
+const planet1=
+    createPlanet(
+        0x7647b8,
+        2.5,
+        -9,
+        4,
+        -12
+    );
+
+const planet2=
+    createPlanet(
+        0xc78648,
+        1.5,
+        9,
+        2,
+        -7
+    );
+
+const planet3=
+    createPlanet(
+        0x4267b5,
+        3.2,
+        11,
+        -6,
+        -18
+    );
+
+
+/* =====================================
+   FLORES 3D
+===================================== */
+
+const flowers=[];
+
+function createFlower(
+    x,
+    y,
+    z,
+    number
+){
+
+    const group=
+        new THREE.Group();
+
+    group.position.set(x,y,z);
+
+    group.userData.number=number;
+    group.userData.locked=
+        number!==1;
+
+    /* PÉTALOS */
+
+    for(let i=0;i<6;i++){
+
+        const geometry=
+            new THREE.SphereGeometry(
+                1,
+                20,
+                12
+            );
+
+        const material=
+            new THREE.MeshStandardMaterial({
+                color:0xffd52f,
+                roughness:.45,
+                metalness:.05,
+                emissive:0x6b4500,
+                emissiveIntensity:.35
+            });
+
+        const petal=
+            new THREE.Mesh(
+                geometry,
+                material
+            );
+
+        const angle=
+            i*Math.PI/3;
+
+        petal.scale.set(
+            .65,
+            1.5,
+            .25
+        );
+
+        petal.position.x=
+            Math.cos(angle)*1.05;
+
+        petal.position.y=
+            Math.sin(angle)*1.05;
+
+        petal.rotation.z=
+            angle;
+
+        group.add(petal);
+    }
+
+    /* CENTRO */
+
+    const centerGeometry=
+        new THREE.SphereGeometry(
+            .65,
+            30,
+            30
+        );
+
+    const centerMaterial=
+        new THREE.MeshStandardMaterial({
+            color:0xd98d13,
+            emissive:0xffb300,
+            emissiveIntensity:.6
+        });
+
+    const center=
+        new THREE.Mesh(
+            centerGeometry,
+            centerMaterial
+        );
+
+    center.position.z=.3;
+
+    group.add(center);
+
+    /* BRILLO */
+
+    const glowGeometry=
+        new THREE.SphereGeometry(
+            2.4,
+            20,
+            20
+        );
+
+    const glowMaterial=
+        new THREE.MeshBasicMaterial({
+            color:0xffd93d,
+            transparent:true,
+            opacity:.08
+        });
+
+    const glow=
+        new THREE.Mesh(
+            glowGeometry,
+            glowMaterial
+        );
+
+    group.add(glow);
+
+    scene.add(group);
+
+    flowers.push(group);
+
+    return group;
 }
 
 
-/* =========================
+/* POSICIONES */
+
+createFlower(-7,2,2,1);
+createFlower(7,0,-1,2);
+createFlower(-5,-5,1,3);
+createFlower(6,-5,-3,4);
+
+
+/* =====================================
+   CONTROL TÁCTIL
+===================================== */
+
+let targetRotationX=0;
+let targetRotationY=0;
+
+let startX=0;
+let startY=0;
+
+let dragging=false;
+
+renderer.domElement.addEventListener(
+    "touchstart",
+    e=>{
+
+        if(e.touches.length!==1) return;
+
+        startX=e.touches[0].clientX;
+        startY=e.touches[0].clientY;
+
+        dragging=true;
+    },
+    {passive:false}
+);
+
+renderer.domElement.addEventListener(
+    "touchmove",
+    e=>{
+
+        if(!dragging || e.touches.length!==1)
+            return;
+
+        const x=e.touches[0].clientX;
+        const y=e.touches[0].clientY;
+
+        const dx=x-startX;
+        const dy=y-startY;
+
+        targetRotationY+=dx*.0008;
+        targetRotationX+=dy*.0005;
+
+        startX=x;
+        startY=y;
+
+        e.preventDefault();
+    },
+    {passive:false}
+);
+
+renderer.domElement.addEventListener(
+    "touchend",
+    ()=>dragging=false
+);
+
+
+/* =====================================
+   RATÓN
+===================================== */
+
+let mouseX=0;
+let mouseY=0;
+
+addEventListener(
+    "mousemove",
+    e=>{
+
+        mouseX=
+            (e.clientX/innerWidth-.5)*2;
+
+        mouseY=
+            (e.clientY/innerHeight-.5)*2;
+
+    }
+);
+
+
+/* =====================================
+   RAYCASTER
+===================================== */
+
+const raycaster=
+    new THREE.Raycaster();
+
+const pointer=
+    new THREE.Vector2();
+
+
+function checkFlower(clientX,clientY){
+
+    pointer.x=
+        (clientX/innerWidth)*2-1;
+
+    pointer.y=
+        -(clientY/innerHeight)*2+1;
+
+    raycaster.setFromCamera(
+        pointer,
+        camera
+    );
+
+    const objects=[];
+
+    flowers.forEach(
+        flower=>{
+            flower.traverse(
+                obj=>{
+                    if(obj.isMesh)
+                        objects.push(obj);
+                }
+            );
+        }
+    );
+
+    const hits=
+        raycaster.intersectObjects(
+            objects,
+            false
+        );
+
+    if(hits.length===0)
+        return;
+
+    let object=
+        hits[0].object;
+
+    while(
+        object.parent &&
+        !object.userData.number
+    ){
+
+        object=object.parent;
+
+    }
+
+    if(!object.userData.number)
+        return;
+
+    openMessage(
+        object.userData.number
+    );
+}
+
+
+/* =====================================
+   TOQUE
+===================================== */
+
+renderer.domElement.addEventListener(
+    "click",
+    e=>{
+        checkFlower(
+            e.clientX,
+            e.clientY
+        );
+    }
+);
+
+
+/* =====================================
    MENSAJES
-========================= */
+===================================== */
 
 const messages={
 
@@ -842,39 +971,9 @@ text:"Marina recio, sé que no es una fecha especial ni nada por el estilo pero 
 let currentFlower=1;
 
 
-/* =========================
-   ENTRAR
-========================= */
-
-function startUniverse(){
-
-    document.getElementById("intro")
-        .classList.add("hidden");
-
-}
-
-
-/* =========================
-   AVISO
-========================= */
-
-function showNotice(text){
-
-    const notice=document.getElementById("notice");
-
-    notice.textContent=text;
-
-    notice.classList.add("show");
-
-    setTimeout(()=>{
-        notice.classList.remove("show");
-    },2200);
-}
-
-
-/* =========================
-   ABRIR FLORES
-========================= */
+/* =====================================
+   ABRIR MENSAJE
+===================================== */
 
 function openMessage(number){
 
@@ -887,49 +986,42 @@ function openMessage(number){
         return;
     }
 
-    const flower=
-        document.getElementById("flower"+number);
+    document.getElementById(
+        "messageTitle"
+    ).textContent=
+        messages[number].title;
 
-    flower.classList.add("opening");
+    document.getElementById(
+        "messageText"
+    ).textContent=
+        messages[number].text;
 
-    setTimeout(()=>{
-
-        document.getElementById("messageTitle")
-            .textContent=messages[number].title;
-
-        document.getElementById("messageText")
-            .textContent=messages[number].text;
-
-        document.getElementById("messageScreen")
-            .classList.add("show");
-
-    },500);
+    document.getElementById(
+        "message"
+    ).classList.add("show");
 
 }
 
 
-/* =========================
+/* =====================================
    CERRAR MENSAJE
-========================= */
+===================================== */
 
 function closeMessage(){
 
-    document.getElementById("messageScreen")
-        .classList.remove("show");
+    document.getElementById(
+        "message"
+    ).classList.remove("show");
 
-    const oldFlower=
-        document.getElementById("flower"+currentFlower);
-
-    oldFlower.classList.add("found");
+    flowers[currentFlower-1]
+        .userData.found=true;
 
     if(currentFlower<4){
 
         currentFlower++;
 
-        const nextFlower=
-            document.getElementById("flower"+currentFlower);
-
-        nextFlower.classList.remove("locked");
+        flowers[currentFlower-1]
+            .userData.locked=false;
 
         showNotice(
             "Hay otra flor esperándote... 🌻"
@@ -937,55 +1029,91 @@ function closeMessage(){
 
     }else{
 
-        setTimeout(startZoomScene,800);
+        setTimeout(
+            startZoom,
+            800
+        );
 
     }
 
 }
 
 
-/* =========================
-   ESCENA DE ZOOM
-========================= */
+/* =====================================
+   AVISO
+===================================== */
 
-const zoomScene=
-    document.getElementById("zoomScene");
+function showNotice(text){
 
-const zoomWorld=
-    document.getElementById("zoomWorld");
+    const n=
+        document.getElementById("notice");
 
-const zoomInstruction=
-    document.getElementById("zoomInstruction");
+    n.textContent=text;
 
-let zoomLevel=1;
+    n.classList.add("show");
 
-let startDistance=null;
-
-let revealed=false;
-
-
-function startZoomScene(){
-
-    zoomScene.classList.add("active");
-
-    document.getElementById("universe")
-        .classList.add("zooming");
+    setTimeout(
+        ()=>n.classList.remove("show"),
+        2200
+    );
 
 }
 
 
-/* =========================
-   PINCH ZOOM
-========================= */
+/* =====================================
+   INTRO
+===================================== */
 
-zoomScene.addEventListener(
+function enterUniverse(){
+
+    document.getElementById(
+        "intro"
+    ).classList.add("hide");
+
+    setTimeout(
+        ()=>{
+            document.getElementById(
+                "hint"
+            ).style.opacity=".55";
+        },
+        1200
+    );
+
+}
+
+
+/* =====================================
+   ZOOM FINAL
+===================================== */
+
+let zoomLevel=1;
+let startDistance=null;
+let revealed=false;
+
+const zoom=
+    document.getElementById("zoom");
+
+
+function startZoom(){
+
+    zoom.classList.add("show");
+
+}
+
+
+/* PINCH */
+
+zoom.addEventListener(
     "touchstart",
-    function(e){
+    e=>{
 
         if(e.touches.length===2){
 
             startDistance=
-                getDistance(e.touches[0],e.touches[1]);
+                distance(
+                    e.touches[0],
+                    e.touches[1]
+                );
 
         }
 
@@ -994,98 +1122,213 @@ zoomScene.addEventListener(
 );
 
 
-zoomScene.addEventListener(
+zoom.addEventListener(
     "touchmove",
-    function(e){
+    e=>{
 
-        if(e.touches.length!==2) return;
+        if(e.touches.length!==2)
+            return;
 
         e.preventDefault();
 
-        const distance=
-            getDistance(e.touches[0],e.touches[1]);
+        const d=
+            distance(
+                e.touches[0],
+                e.touches[1]
+            );
 
         if(startDistance===null){
 
-            startDistance=distance;
-
+            startDistance=d;
             return;
 
         }
 
         const change=
-            distance/startDistance;
+            d/startDistance;
 
-        if(change>1){
-
-            zoomLevel+=0.018;
-
-        }else if(change<1){
-
-            zoomLevel-=0.008;
-
-        }
+        if(change>1)
+            zoomLevel+=.025;
 
         zoomLevel=
-            Math.max(1,Math.min(3.8,zoomLevel));
+            Math.min(
+                4,
+                Math.max(
+                    1,
+                    zoomLevel
+                )
+            );
 
-        zoomWorld.style.transform=
-            "scale("+zoomLevel+")";
+        if(
+            zoomLevel>=3 &&
+            !revealed
+        ){
 
-        startDistance=distance;
+            revealed=true;
 
-        if(zoomLevel>=3 && !revealed){
+            zoom.classList.add(
+                "revealed"
+            );
 
-            revealFinal();
+            document.getElementById(
+                "zoomText"
+            ).textContent=
+                "Para ti, Marina 🩵";
 
         }
+
+        startDistance=d;
 
     },
     {passive:false}
 );
 
 
-zoomScene.addEventListener(
+zoom.addEventListener(
     "touchend",
-    function(){
-
+    ()=>{
         startDistance=null;
-
     }
 );
 
 
-function getDistance(a,b){
+function distance(a,b){
 
-    const dx=a.clientX-b.clientX;
-    const dy=a.clientY-b.clientY;
+    const dx=
+        a.clientX-b.clientX;
 
-    return Math.sqrt(dx*dx+dy*dy);
+    const dy=
+        a.clientY-b.clientY;
+
+    return Math.sqrt(
+        dx*dx+dy*dy
+    );
+
+}
+
+
+/* =====================================
+   ANIMACIÓN
+===================================== */
+
+let time=0;
+
+function animate(){
+
+    requestAnimationFrame(
+        animate
+    );
+
+    time+=.005;
+
+    /* universo */
+
+    starField.rotation.y+=.00012;
+    starField.rotation.x+=.00003;
+
+    nebula1.rotation.y+=.0005;
+    nebula2.rotation.y-=.0004;
+
+    planet1.rotation.y+=.003;
+    planet2.rotation.y+=.005;
+    planet3.rotation.y+=.002;
+
+    /* movimiento de cámara */
+
+    camera.rotation.y+=
+        (targetRotationY-camera.rotation.y)*.04;
+
+    camera.rotation.x+=
+        (targetRotationX-camera.rotation.x)*.04;
+
+    camera.position.x+=
+        (mouseX*1.2-camera.position.x)*.015;
+
+    camera.position.y+=
+        (-mouseY*0.8-camera.position.y)*.015;
+
+    /* flores */
+
+    flowers.forEach(
+        (flower,i)=>{
+
+            flower.rotation.y+=.006;
+
+            flower.rotation.z=
+                Math.sin(
+                    time*2+i
+                )*.08;
+
+            flower.position.y+=
+                Math.sin(
+                    time*1.5+i
+                )*.002;
+
+            if(flower.userData.locked){
+
+                flower.traverse(
+                    obj=>{
+                        if(
+                            obj.material &&
+                            obj.material.emissive
+                        ){
+
+                            obj.material.emissiveIntensity=.08;
+
+                        }
+                    }
+                );
+
+            }else{
+
+                flower.traverse(
+                    obj=>{
+                        if(
+                            obj.material &&
+                            obj.material.emissive
+                        ){
+
+                            obj.material.emissiveIntensity=.4;
+
+                        }
+                    }
+                );
+
+            }
+
+        }
+    );
+
+    renderer.render(
+        scene,
+        camera
+    );
 
 }
 
+animate();
 
-/* =========================
-   REVELACIÓN FINAL
-========================= */
 
-function revealFinal(){
+/* =====================================
+   RESIZE
+===================================== */
 
-    revealed=true;
+addEventListener(
+    "resize",
+    ()=>{
 
-    zoomScene.classList.add("revealed");
+        camera.aspect=
+            innerWidth/innerHeight;
 
-    zoomInstruction.textContent=
-        "Acércate un poquito más... ✨";
+        camera.updateProjectionMatrix();
 
-    setTimeout(()=>{
+        renderer.setSize(
+            innerWidth,
+            innerHeight
+        );
 
-        zoomInstruction.textContent=
-            "🩵";
-
-    },2500);
-
-}
+    }
+);
 
 </script>
 
