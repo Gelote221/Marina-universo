@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Marina ✨</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    background: #02020d;
+    color: white;
+    touch-action: none;
+}
+
+/* UNIVERSO */
+
+#universe {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 45%, #171044 0%, #08051e 38%, #02020d 78%);
+}
+
+.nebula {
+    position: absolute;
+    width: 80vw;
+    height: 80vw;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .25;
+    pointer-events: none;
+}
+
+.nebula.one {
+    background: #633cff;
+    left: -25vw;
+    top: 10vh;
+}
+
+.nebula.two {
+    background: #e45b9d;
+    right: -30vw;
+    bottom: -20vh;
+}
+
+/* ESTRELLAS */
+
+.stars {
+    position: absolute;
+    inset: 0;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: .2; transform: scale(.7); }
+    to { opacity: 1; transform: scale(1.5); }
+}
+
+/* PLANETAS */
+
+.planet {
+    position: absolute;
+    border-radius: 50%;
+    opacity: .75;
+    box-shadow: 0 0 35px rgba(255,255,255,.12);
+}
+
+.planet.one {
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle at 30% 30%, #f6c1ff, #633a9e 55%, #201340);
+    left: 8%;
+    top: 16%;
+}
+
+.planet.two {
+    width: 55px;
+    height: 55px;
+    background: radial-gradient(circle at 30% 30%, #ffe6a6, #a96b32 55%, #3a1d19);
+    right: 12%;
+    top: 25%;
+}
+
+.planet.three {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at 35% 30%, #b7d8ff, #3b5e9b 50%, #101b45);
+    right: -35px;
+    bottom: 8%;
+}
+
+/* TÍTULO */
+
+.title {
+    position: absolute;
+    top: 7%;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.title h1 {
+    font-size: clamp(42px, 13vw, 90px);
+    font-weight: normal;
+    letter-spacing: 8px;
+    text-shadow:
+        0 0 10px rgba(255,255,255,.8),
+        0 0 30px rgba(200,170,255,.7);
+}
+
+.title p {
+    margin-top: 8px;
+    font-size: 14px;
+    letter-spacing: 3px;
+    opacity: .7;
+}
+
+/* FLORES */
+
+.flower {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 20;
+    transition: transform .4s ease;
+    animation: float 4s ease-in-out infinite;
+}
+
+.flower:hover {
+    transform: scale(1.15);
+}
+
+.flower .center {
+    position: absolute;
+    width: 23px;
+    height: 23px;
+    background: #e69b18;
+    border-radius: 50%;
+    left: 29px;
+    top: 29px;
+    z-index: 3;
+    box-shadow: 0 0 18px #ffd35a;
+}
+
+.petal {
+    position: absolute;
+    width: 29px;
+    height: 42px;
+    background: linear-gradient(#fff26b, #e6a919);
+    border-radius: 50% 50% 45% 45%;
+    left: 25px;
+    top: 19px;
+    transform-origin: 15px 21px;
+    box-shadow: 0 0 15px rgba(255,210,60,.55);
+}
+
+.p1 { transform: rotate(0deg) translateY(-19px); }
+.p2 { transform: rotate(60deg) translateY(-19px); }
+.p3 { transform: rotate(120deg) translateY(-19px); }
+.p4 { transform: rotate(180deg) translateY(-19px); }
+.p5 { transform: rotate(240deg) translateY(-19px); }
+.p6 { transform: rotate(300deg) translateY(-19px); }
+
+.flower-number {
+    position: absolute;
+    bottom: -25px;
+    width: 100%;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    opacity: .8;
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+.f1 {
+    left: 15%;
+    top: 40%;
+}
+
+.f2 {
+    right: 17%;
+    top: 48%;
+    animation-delay: .8s;
+}
+
+.f3 {
+    left: 22%;
+    bottom: 16%;
+    animation-delay: 1.5s;
+}
+
+.f4 {
+    right: 18%;
+    bottom: 18%;
+    animation-delay: 2.2s;
+}
+
+/* MENSAJE */
+
+.message-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(2,2,13,.93);
+    backdrop-filter: blur(12px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+}
+
+.message-screen.show {
+    display: flex;
+    animation: appear .6s ease;
+}
+
+.message {
+    max-width: 650px;
+    text-align: center;
+    padding: 35px 25px;
+}
+
+.message-flower {
+    transform: scale(.7);
+    margin: 0 auto 20px;
+}
+
+.message h2 {
+    font-size: 28px;
+    font-weight: normal;
+    margin-bottom: 25px;
+    color: #ffe76a;
+    text-shadow: 0 0 15px rgba(255,220,70,.5);
+}
+
+.message p {
+    font-size: 19px;
+    line-height: 1.7;
+    color: #fff;
+}
+
+.close {
+    margin-top: 35px;
+    border: 1px solid rgba(255,255,255,.35);
+    background: rgba(255,255,255,.08);
+    color: white;
+    border-radius: 30px;
+    padding: 12px 28px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.close:active {
+    transform: scale(.95);
+}
+
+/* FINAL */
+
+#finalFlower {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: #02020d;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#finalFlower.show {
+    display: flex;
+}
+
+.final-flower {
+    transform: scale(2);
+}
+
+.love {
+    margin-top: 65px;
+    font-size: clamp(38px, 11vw, 80px);
+    letter-spacing: 8px;
+    text-shadow:
+        0 0 10px #fff,
+        0 0 35px #7edcff;
+    animation: loveAppear 2s ease forwards;
+}
+
+@keyframes loveAppear {
+    from {
+        opacity: 0;
+        transform: scale(.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="universe">
+
+    <div class="nebula one"></div>
+    <div class="nebula two"></div>
+
+    <div class="stars" id="stars"></div>
+
+    <div class="planet one"></div>
+    <div class="planet two"></div>
+    <div class="planet three"></div>
+
+    <div class="title">
+        <h1>Marina</h1>
+        <p>un pequeño universo para ti</p>
+    </div>
+
+    <!-- FLOR 1 -->
+    <button class="flower f1" onclick="openMessage(1)">
+        <span class="petal p1"></span>
+        <span class="petal p2"></span>
+        <span class="petal p3"></span>
+        <span class="petal p4"></span>
+        <span class="petal p5"></span>
+        <span class="petal p6"></span>
+        <span class="center"></span>
+        <span class="flower-number">①</span>
+    </button>
+
+    <!-- FLOR 2 -->
+    <button class="flower f2" onclick="openMessage(2)">
+        <span class="petal p1"></span>
+        <span class="petal p2"></span>
+        <span class="petal p3"></span>
+        <span class="petal p4"></span>
+        <span class="petal p5"></span>
+        <span class="petal p6"></span>
+        <span class="center"></span>
+        <span class="flower-number">②</span>
+    </button>
+
+    <!-- FLOR 3 -->
+    <button class="flower f3" onclick="openMessage(3)">
+        <span class="petal p1"></span>
+        <span class="petal p2"></span>
+        <span class="petal p3"></span>
+        <span class="petal p4"></span>
+        <span class="petal p5"></span>
+        <span class="petal p6"></span>
+        <span class="center"></span>
+        <span class="flower-number">③</span>
+    </button>
+
+    <!-- FLOR 4 -->
+    <button class="flower f4" onclick="openMessage(4)">
+        <span class="petal p1"></span>
+        <span class="petal p2"></span>
+        <span class="petal p3"></span>
+        <span class="petal p4"></span>
+        <span class="petal p5"></span>
+        <span class="petal p6"></span>
+        <span class="center"></span>
+        <span class="flower-number">④</span>
+    </button>
+
+</div>
+
+<!-- VENTANA DE MENSAJES -->
+
+<div class="message-screen" id="messageScreen">
+    <div class="message">
+
+        <div class="flower message-flower">
+            <span class="petal p1"></span>
+            <span class="petal p2"></span>
+            <span class="petal p3"></span>
+            <span class="petal p4"></span>
+            <span class="petal p5"></span>
+            <span class="petal p6"></span>
+            <span class="center"></span>
+        </div>
+
+        <h2 id="messageTitle"></h2>
+        <p id="messageText"></p>
+
+        <button class="close" onclick="closeMessage()">
+            Volver al universo ✨
+        </button>
+
+    </div>
+</div>
+
+<!-- FINAL -->
+
+<div id="finalFlower">
+
+    <div class="flower final-flower">
+        <span class="petal p1"></span>
+        <span class="petal p2"></span>
+        <span class="petal p3"></span>
+        <span class="petal p4"></span>
+        <span class="petal p5"></span>
+        <span class="petal p6"></span>
+        <span class="center"></span>
+    </div>
+
+    <div class="love">
+        TE AMO 🩵
+    </div>
+
+</div>
+
+<script>
+
+/* CREAR ESTRELLAS */
+
+const stars = document.getElementById("stars");
+
+for(let i = 0; i < 180; i++){
+
+    const star = document.createElement("span");
+
+    star.className = "star";
+
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+
+    star.style.animationDelay =
+        Math.random() * 3 + "s";
+
+    star.style.opacity =
+        Math.random();
+
+    stars.appendChild(star);
+}
+
+
+/* MENSAJES */
+
+const messages = {
+
+    1: {
+        title: "Flor 1",
+        text: "Se que quizá esto no es lo que te esperabas pero quería darte esto de una manera un poquito más especial y ya sabes, a mi estilo."
+    },
+
+    2: {
+        title: "Flor 2",
+        text: "Todo esto para recordarte de que los detalles típicos, se pueden modificar con un poquito más de esfuerzo para que tenga un toque un poco más personal y no sea tan básico como regalarte un ramo sin más."
+    },
+
+    3: {
+        title: "Flor 3",
+        text: "Aunque quizá no te gusta tanto la idea de tener una página web en la que puedas ir viendo todo, pero tienes algo que no se irá nunca y podrás visitarlo cada vez que quieras. Pero con todo este rollo voy a la parte bonita jajajja."
+    },
+
+    4: {
+        title: "Flor 4",
+        text: "Marina recio, sé que no es una fecha especial ni nada por el estilo pero es mi manera de demostrarte que no hay nada en el mundo que no quiera hacer por ti, ya que para mí, lo eres todo en este mundo. Y lo que siempre te digo y cosa que no quiero que transforme en algo típico sin sentimiento es que…"
+    }
+
+};
+
+
+/* CONTROL DEL ORDEN */
+
+let currentFlower = 1;
+
+function openMessage(number){
+
+    if(number !== currentFlower){
+
+        alert(
+            "Hay una flor que deberías abrir antes 🌻"
+        );
+
+        return;
+    }
+
+    document.getElementById("messageTitle").textContent =
+        messages[number].title;
+
+    document.getElementById("messageText").textContent =
+        messages[number].text;
+
+    document.getElementById("messageScreen")
+        .classList.add("show");
+}
+
+
+function closeMessage(){
+
+    document.getElementById("messageScreen")
+        .classList.remove("show");
+
+    if(currentFlower < 4){
+
+        currentFlower++;
+
+    } else {
+
+        setTimeout(() => {
+
+            document.getElementById("finalFlower")
+                .classList.add("show");
+
+        }, 700);
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
