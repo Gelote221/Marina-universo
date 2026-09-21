@@ -2,351 +2,237 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Marina ✨</title>
 
 <style>
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#01010a;
-    font-family:Georgia,"Times New Roman",serif;
-    color:white;
-    touch-action:none;
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#02030c;
+  font-family:Georgia,serif;
+  color:white;
+}
+
+#intro{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 45%,rgba(77,65,180,.22),transparent 32%),
+    radial-gradient(circle at 20% 20%,rgba(255,214,100,.08),transparent 25%),
+    #02030c;
+  transition:opacity 1.4s ease,visibility 1.4s;
+}
+
+#intro h1{
+  font-size:clamp(55px,18vw,110px);
+  margin:0;
+  font-weight:normal;
+  letter-spacing:8px;
+  text-shadow:
+    0 0 10px rgba(255,255,255,.7),
+    0 0 35px rgba(180,170,255,.8);
+}
+
+#intro p{
+  margin:18px 25px 35px;
+  font-size:16px;
+  opacity:.75;
+}
+
+#enter{
+  border:1px solid rgba(255,255,255,.45);
+  background:rgba(255,255,255,.08);
+  color:white;
+  padding:15px 30px;
+  border-radius:40px;
+  font-size:17px;
+  backdrop-filter:blur(10px);
+  cursor:pointer;
+}
+
+#enter:active{
+  transform:scale(.95);
+}
+
+#intro.hidden{
+  opacity:0;
+  visibility:hidden;
+}
+
+#scene{
+  position:fixed;
+  inset:0;
 }
 
 canvas{
-    display:block;
-}
-
-/* INTRO */
-
-#intro{
-    position:fixed;
-    inset:0;
-    z-index:1000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    background:#01010a;
-    transition:opacity 1.5s,transform 1.5s;
-}
-
-#intro.hide{
-    opacity:0;
-    transform:scale(1.7);
-    pointer-events:none;
-}
-
-.intro-title{
-    font-size:clamp(55px,18vw,110px);
-    font-weight:normal;
-    letter-spacing:10px;
-    text-shadow:
-        0 0 10px white,
-        0 0 35px #a78cff,
-        0 0 70px #694cff;
-}
-
-.intro-sub{
-    margin-top:18px;
-    font-size:13px;
-    letter-spacing:4px;
-    opacity:.65;
-}
-
-.intro-button{
-    margin-top:45px;
-    padding:14px 32px;
-    border-radius:40px;
-    border:1px solid rgba(255,255,255,.3);
-    background:rgba(255,255,255,.08);
-    color:white;
-    font-family:Georgia,serif;
-    font-size:15px;
-}
-
-/* HUD */
-
-#hud{
-    position:fixed;
-    top:6%;
-    left:0;
-    width:100%;
-    z-index:50;
-    text-align:center;
-    pointer-events:none;
-    transition:opacity 1s;
-}
-
-#hud h1{
-    font-size:clamp(40px,13vw,85px);
-    font-weight:normal;
-    letter-spacing:8px;
-    text-shadow:
-        0 0 10px white,
-        0 0 30px #a78cff,
-        0 0 60px #694cff;
-}
-
-#hud p{
-    margin-top:8px;
-    font-size:13px;
-    letter-spacing:3px;
-    opacity:.6;
+  display:block;
+  width:100%;
+  height:100%;
 }
 
 #hint{
-    position:fixed;
-    bottom:5%;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:50;
-    font-size:12px;
-    letter-spacing:2px;
-    opacity:.55;
-    white-space:nowrap;
-    pointer-events:none;
+  position:fixed;
+  z-index:5;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 40px);
+  max-width:500px;
+  text-align:center;
+  padding:12px 18px;
+  border-radius:30px;
+  background:rgba(5,7,25,.42);
+  border:1px solid rgba(255,255,255,.13);
+  backdrop-filter:blur(12px);
+  font-size:13px;
+  opacity:0;
+  transition:opacity 1s;
+  pointer-events:none;
 }
 
-/* MENSAJES */
+#hint.show{
+  opacity:.8;
+}
 
 #message{
-    position:fixed;
-    inset:0;
-    z-index:500;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:25px;
-    background:rgba(2,1,14,.86);
-    backdrop-filter:blur(18px);
+  position:fixed;
+  inset:0;
+  z-index:15;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  padding:25px;
+  background:rgba(1,2,12,.72);
+  backdrop-filter:blur(15px);
 }
 
-#message.show{
-    display:flex;
-    animation:fadeIn .7s;
+.messageBox{
+  width:min(92%,520px);
+  padding:35px 27px;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at top,rgba(255,231,110,.12),transparent 55%),
+    rgba(12,15,38,.9);
+  border:1px solid rgba(255,235,150,.3);
+  box-shadow:
+    0 0 70px rgba(255,220,80,.12),
+    inset 0 0 40px rgba(255,255,255,.025);
+  text-align:center;
+  animation:appear .7s ease;
 }
 
-.message-box{
-    width:min(650px,100%);
-    max-height:90vh;
-    overflow:auto;
-    text-align:center;
-    padding:30px 20px;
-}
-
-.fake-flower{
-    width:90px;
-    height:90px;
-    margin:0 auto 35px;
-    position:relative;
-    filter:drop-shadow(0 0 22px #ffe66b);
-    animation:flowerOpen 1.5s ease;
-}
-
-.fake-petal{
-    position:absolute;
-    width:30px;
-    height:48px;
-    left:30px;
-    top:21px;
-    border-radius:60% 60% 45% 45%;
-    background:linear-gradient(135deg,#fffca0,#f0b21e);
-    transform-origin:15px 24px;
-    box-shadow:
-        inset -5px -5px 10px rgba(120,70,0,.25),
-        0 0 12px rgba(255,220,70,.5);
-}
-
-.fp1{transform:rotate(0deg) translateY(-20px)}
-.fp2{transform:rotate(60deg) translateY(-20px)}
-.fp3{transform:rotate(120deg) translateY(-20px)}
-.fp4{transform:rotate(180deg) translateY(-20px)}
-.fp5{transform:rotate(240deg) translateY(-20px)}
-.fp6{transform:rotate(300deg) translateY(-20px)}
-
-.fake-center{
-    position:absolute;
-    width:25px;
-    height:25px;
-    left:33px;
-    top:33px;
-    border-radius:50%;
-    background:#d89416;
-    box-shadow:0 0 20px #ffd84d;
-}
-
-#message h2{
-    color:#ffe86b;
-    font-size:28px;
-    font-weight:normal;
-    margin-bottom:25px;
-    text-shadow:0 0 20px #d9a91d;
-}
-
-#message p{
-    font-size:18px;
-    line-height:1.75;
-}
-
-.close{
-    margin-top:30px;
-    padding:13px 28px;
-    border-radius:30px;
-    border:1px solid rgba(255,255,255,.3);
-    background:rgba(255,255,255,.08);
-    color:white;
-    font-family:Georgia,serif;
-}
-
-/* AVISO */
-
-#notice{
-    position:fixed;
-    bottom:13%;
-    left:50%;
-    transform:translate(-50%,20px);
-    z-index:800;
-    padding:12px 22px;
-    border-radius:30px;
-    background:rgba(10,7,35,.9);
-    border:1px solid rgba(255,255,255,.2);
+@keyframes appear{
+  from{
     opacity:0;
-    transition:.4s;
-    pointer-events:none;
-    white-space:nowrap;
-}
-
-#notice.show{
+    transform:scale(.8) translateY(25px);
+  }
+  to{
     opacity:1;
-    transform:translate(-50%,0);
+    transform:scale(1) translateY(0);
+  }
 }
 
-/* FINAL ZOOM */
-
-#zoom{
-    position:fixed;
-    inset:0;
-    z-index:700;
-    display:none;
-    overflow:hidden;
-    background:
-        radial-gradient(circle,#1d155e 0%,#080525 45%,#01010a 100%);
+.messageFlower{
+  font-size:60px;
+  margin-bottom:15px;
+  filter:drop-shadow(0 0 15px rgba(255,220,70,.8));
 }
 
-#zoom.show{
-    display:block;
+.messageBox p{
+  font-size:17px;
+  line-height:1.75;
+  white-space:pre-line;
 }
 
-#zoomText{
-    position:absolute;
-    top:9%;
-    left:50%;
-    transform:translateX(-50%);
-    width:90%;
-    text-align:center;
-    font-size:14px;
-    letter-spacing:2px;
-    opacity:.65;
+.closeMessage{
+  margin-top:25px;
+  padding:12px 28px;
+  border-radius:30px;
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.08);
+  color:white;
+  font-size:15px;
 }
 
-#finalFlower{
-    position:absolute;
-    width:150px;
-    height:150px;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%) scale(.2);
-    opacity:.1;
-    transition:
-        transform 2s ease,
-        opacity 2s ease,
-        filter 2s ease;
-    filter:drop-shadow(0 0 5px #ffe66b);
+#finalText{
+  position:fixed;
+  z-index:10;
+  inset:0;
+  pointer-events:none;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:50px;
+  text-align:center;
 }
 
-#zoom.revealed #finalFlower{
-    transform:translate(-50%,-50%) scale(1);
-    opacity:1;
-    filter:drop-shadow(0 0 55px #ffe66b);
-}
-
-.final-petal{
-    position:absolute;
-    width:48px;
-    height:70px;
-    left:51px;
-    top:40px;
-    border-radius:60%;
-    background:linear-gradient(135deg,#ffffa0,#e6a817);
-    transform-origin:24px 35px;
-    box-shadow:
-        inset -7px -8px 12px rgba(120,70,0,.25),
-        0 0 20px rgba(255,220,70,.55);
-}
-
-.fnp1{transform:rotate(0deg) translateY(-34px)}
-.fnp2{transform:rotate(60deg) translateY(-34px)}
-.fnp3{transform:rotate(120deg) translateY(-34px)}
-.fnp4{transform:rotate(180deg) translateY(-34px)}
-.fnp5{transform:rotate(240deg) translateY(-34px)}
-.fnp6{transform:rotate(300deg) translateY(-34px)}
-
-.final-center{
-    position:absolute;
-    width:38px;
-    height:38px;
-    left:56px;
-    top:56px;
-    border-radius:50%;
-    background:#dc9518;
-    box-shadow:0 0 30px #ffd84d;
+#finalText div{
+  padding:13px 22px;
+  border-radius:30px;
+  background:rgba(5,5,20,.55);
+  backdrop-filter:blur(12px);
+  font-size:14px;
+  opacity:.85;
 }
 
 #love{
-    position:absolute;
-    top:72%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(.3);
-    opacity:0;
-    font-size:clamp(40px,12vw,90px);
-    white-space:nowrap;
-    letter-spacing:7px;
-    text-shadow:
-        0 0 10px white,
-        0 0 35px #8de5ff,
-        0 0 70px #39baff;
-    transition:2s;
+  position:fixed;
+  inset:0;
+  z-index:30;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  background:
+    radial-gradient(circle,rgba(255,218,75,.16),transparent 35%),
+    #02030c;
+  animation:loveAppear 2s ease;
 }
 
-#zoom.revealed #love{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
+@keyframes loveAppear{
+  from{opacity:0}
+  to{opacity:1}
 }
 
-@keyframes fadeIn{
-    from{opacity:0}
-    to{opacity:1}
+#loveFlower{
+  font-size:130px;
+  filter:
+    drop-shadow(0 0 15px #ffe45b)
+    drop-shadow(0 0 50px rgba(255,218,60,.7));
+  animation:flowerPulse 2.5s ease-in-out infinite;
 }
 
-@keyframes flowerOpen{
-    from{
-        transform:scale(.3) rotate(-20deg);
-        opacity:0;
-    }
-    to{
-        transform:scale(1) rotate(0);
-        opacity:1;
-    }
+@keyframes flowerPulse{
+  0%,100%{transform:scale(1) rotate(-2deg)}
+  50%{transform:scale(1.08) rotate(2deg)}
+}
+
+#love h2{
+  font-size:clamp(45px,13vw,90px);
+  letter-spacing:7px;
+  font-weight:normal;
+  margin:20px 0 0;
+  text-shadow:0 0 30px rgba(170,220,255,.8);
+}
+
+#love p{
+  opacity:.65;
+  font-size:15px;
 }
 </style>
 </head>
@@ -354,981 +240,764 @@ canvas{
 <body>
 
 <div id="intro">
-    <div class="intro-title">Marina</div>
-    <div class="intro-sub">un pequeño universo para ti</div>
-    <button class="intro-button" onclick="enterUniverse()">
-        Entrar ✨
-    </button>
+  <h1>Marina</h1>
+  <p>Hay algo que quiero enseñarte...</p>
+  <button id="enter">Entrar ✨</button>
 </div>
 
-<div id="hud">
-    <h1>Marina</h1>
-    <p>encuentra las cuatro flores</p>
-</div>
+<div id="scene"></div>
 
 <div id="hint">
-    Desliza para explorar el universo ✨
+  Explora el universo... 🌌<br>
+  <small>Mueve el dedo para mirar a tu alrededor</small>
 </div>
-
-<div id="notice"></div>
 
 <div id="message">
-    <div class="message-box">
-
-        <div class="fake-flower">
-            <span class="fake-petal fp1"></span>
-            <span class="fake-petal fp2"></span>
-            <span class="fake-petal fp3"></span>
-            <span class="fake-petal fp4"></span>
-            <span class="fake-petal fp5"></span>
-            <span class="fake-petal fp6"></span>
-            <span class="fake-center"></span>
-        </div>
-
-        <h2 id="messageTitle"></h2>
-        <p id="messageText"></p>
-
-        <button class="close" onclick="closeMessage()">
-            Volver al universo ✨
-        </button>
-
-    </div>
+  <div class="messageBox">
+    <div class="messageFlower">🌼</div>
+    <p id="messageText"></p>
+    <button class="closeMessage" id="closeMessage">Continuar explorando ✨</button>
+  </div>
 </div>
 
-<div id="zoom">
-
-    <div id="zoomText">
-        Ahora acércate con dos dedos... 🤍
-    </div>
-
-    <div id="finalFlower">
-
-        <span class="final-petal fnp1"></span>
-        <span class="final-petal fnp2"></span>
-        <span class="final-petal fnp3"></span>
-        <span class="final-petal fnp4"></span>
-        <span class="final-petal fnp5"></span>
-        <span class="final-petal fnp6"></span>
-
-        <span class="final-center"></span>
-
-    </div>
-
-    <div id="love">
-        TE AMO 🩵
-    </div>
-
+<div id="finalText">
+  <div>Hay algo más... sigue avanzando hacia la luz 🌼</div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<div id="love">
+  <div id="loveFlower">🌼</div>
+  <h2>TE AMO 🩵</h2>
+  <p>Para ti, Marina.</p>
+</div>
 
-<script>
+<script type="module">
 
-/* =====================================
-   ESCENA 3D
-===================================== */
+import * as THREE from
+"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js";
 
-const scene=new THREE.Scene();
+import { ArcballControls } from
+"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/ArcballControls.js";
 
-scene.background=new THREE.Color(0x01010a);
+const sceneContainer = document.getElementById("scene");
+const intro = document.getElementById("intro");
+const enter = document.getElementById("enter");
+const hint = document.getElementById("hint");
+const message = document.getElementById("message");
+const messageText = document.getElementById("messageText");
+const closeMessage = document.getElementById("closeMessage");
+const finalText = document.getElementById("finalText");
+const love = document.getElementById("love");
 
-scene.fog=new THREE.FogExp2(
-    0x080525,
-    0.0018
+let started = false;
+let unlocked = 1;
+let finalMode = false;
+let finalProgress = 0;
+
+const flowerMessages = [
+`Se que quizá esto no es lo que te esperabas pero quería darte esto de una manera un poquito más especial y ya sabes, a mi estilo.`,
+
+`Todo esto para recordarte de que los detalles típicos, se pueden modificar con un poquito más de esfuerzo para que tenga un toque un poco más personal y no sea tan básico como regalarte un ramo sin más.`,
+
+`Aunque quizá no te gusta tanto la idea de tener una página web en la que puedas ir viendo todo, pero tienes algo que no se irá nunca y podrás visitarlo cada vez que quieras. Pero con todo este rollo voy a la parte bonita jajajja.`,
+
+`Marina recio, sé que no es una fecha especial ni nada por el estilo pero es mi manera de demostrarte que no hay nada en el mundo que no quiera hacer por ti, ya que para mí, lo eres todo en este mundo. Y lo que siempre te digo y cosa que no quiero que transforme en algo típico sin sentimiento es que…`
+];
+
+const scene = new THREE.Scene();
+
+scene.fog = new THREE.FogExp2(0x02030c,0.004);
+
+const camera = new THREE.PerspectiveCamera(
+65,
+innerWidth / innerHeight,
+0.1,
+3000
 );
 
-const camera=new THREE.PerspectiveCamera(
-    60,
-    innerWidth/innerHeight,
-    .1,
-    2000
-);
+camera.position.set(0,0,28);
 
-camera.position.set(0,0,20);
-
-const renderer=new THREE.WebGLRenderer({
-    antialias:true,
-    alpha:true
+const renderer = new THREE.WebGLRenderer({
+antialias:true,
+alpha:false,
+powerPreference:"high-performance"
 });
 
-renderer.setPixelRatio(
-    Math.min(devicePixelRatio,2)
-);
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+renderer.setSize(innerWidth,innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-renderer.setSize(
-    innerWidth,
-    innerHeight
-);
+sceneContainer.appendChild(renderer.domElement);
 
-document.body.insertBefore(
-    renderer.domElement,
-    document.body.firstChild
-);
+/* LUCES */
 
-
-/* =====================================
-   LUCES
-===================================== */
-
-const ambient=new THREE.AmbientLight(
-    0xffffff,
-    1.2
-);
-
+const ambient = new THREE.AmbientLight(0x8899cc,.45);
 scene.add(ambient);
 
-const light=new THREE.PointLight(
-    0xffd85c,
-    3,
-    80
+const mainLight = new THREE.PointLight(0xffdf91,3,180);
+mainLight.position.set(0,8,15);
+scene.add(mainLight);
+
+const blueLight = new THREE.PointLight(0x7899ff,2,160);
+blueLight.position.set(-30,-10,-30);
+scene.add(blueLight);
+
+/* CONTROLES */
+
+const controls = new ArcballControls(
+camera,
+renderer.domElement,
+scene
 );
 
-light.position.set(0,2,8);
+controls.enableAnimations = true;
+controls.enablePan = true;
+controls.enableRotate = true;
+controls.enableZoom = true;
+controls.enableFocus = true;
+controls.cursorZoom = true;
+controls.minDistance = 5;
+controls.maxDistance = 170;
+controls.rotateSpeed = 1.2;
+controls.scaleFactor = 1.12;
+controls.setGizmosVisible(false);
 
-scene.add(light);
+/* ESTRELLAS */
 
+const starGeometry = new THREE.BufferGeometry();
+const starPositions = [];
+const starSizes = [];
 
-/* =====================================
-   ESTRELLAS 3D
-===================================== */
+for(let i=0;i<3000;i++){
 
-const starGeometry=
-    new THREE.BufferGeometry();
+  const radius = 45 + Math.random()*210;
+  const theta = Math.random()*Math.PI*2;
+  const phi = Math.acos(2*Math.random()-1);
 
-const starPositions=[];
+  const x = radius*Math.sin(phi)*Math.cos(theta);
+  const y = radius*Math.sin(phi)*Math.sin(theta);
+  const z = radius*Math.cos(phi);
 
-for(let i=0;i<2200;i++){
-
-    starPositions.push(
-        (Math.random()-.5)*220,
-        (Math.random()-.5)*150,
-        (Math.random()-.5)*180
-    );
+  starPositions.push(x,y,z);
+  starSizes.push(Math.random()*2+.4);
 }
 
 starGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(
-        starPositions,
-        3
-    )
+"position",
+new THREE.Float32BufferAttribute(starPositions,3)
 );
 
-const starMaterial=
-    new THREE.PointsMaterial({
-        color:0xffffff,
-        size:.18,
-        transparent:true,
-        opacity:.9
+const starMaterial = new THREE.PointsMaterial({
+color:0xffffff,
+size:.7,
+transparent:true,
+opacity:.9,
+sizeAttenuation:true
+});
+
+const stars = new THREE.Points(starGeometry,starMaterial);
+scene.add(stars);
+
+/* ESTRELLAS DE COLORES */
+
+function createStarField(color,count){
+
+  const geometry = new THREE.BufferGeometry();
+  const positions=[];
+
+  for(let i=0;i<count;i++){
+
+    const radius=60+Math.random()*170;
+    const a=Math.random()*Math.PI*2;
+    const b=Math.acos(2*Math.random()-1);
+
+    positions.push(
+      radius*Math.sin(b)*Math.cos(a),
+      radius*Math.sin(b)*Math.sin(a),
+      radius*Math.cos(b)
+    );
+  }
+
+  geometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(positions,3)
+  );
+
+  const material=new THREE.PointsMaterial({
+    color,
+    size:1.2,
+    transparent:true,
+    opacity:.5
+  });
+
+  const points=new THREE.Points(geometry,material);
+  scene.add(points);
+
+  return points;
+}
+
+const blueStars=createStarField(0x8fb8ff,350);
+const pinkStars=createStarField(0xffa8d8,250);
+const goldStars=createStarField(0xffe6a0,180);
+
+/* NEBULOSAS */
+
+function createNebula(x,y,z,color,size){
+
+  const group=new THREE.Group();
+
+  for(let i=0;i<18;i++){
+
+    const geometry=new THREE.SphereGeometry(
+      size*(.5+Math.random()*.7),
+      24,
+      24
+    );
+
+    const material=new THREE.MeshBasicMaterial({
+      color,
+      transparent:true,
+      opacity:.025+Math.random()*.025,
+      depthWrite:false
     });
 
-const starField=
-    new THREE.Points(
-        starGeometry,
-        starMaterial
+    const cloud=new THREE.Mesh(geometry,material);
+
+    cloud.position.set(
+      (Math.random()-.5)*size*2,
+      (Math.random()-.5)*size*1.4,
+      (Math.random()-.5)*size*2
     );
 
-scene.add(starField);
+    group.add(cloud);
+  }
 
+  group.position.set(x,y,z);
+  scene.add(group);
 
-/* =====================================
-   NEBULOSAS
-===================================== */
-
-function createNebula(color,x,y,z,size){
-
-    const geometry=
-        new THREE.SphereGeometry(size,32,32);
-
-    const material=
-        new THREE.MeshBasicMaterial({
-            color:color,
-            transparent:true,
-            opacity:.08
-        });
-
-    const mesh=
-        new THREE.Mesh(
-            geometry,
-            material
-        );
-
-    mesh.position.set(x,y,z);
-
-    scene.add(mesh);
-
-    return mesh;
+  return group;
 }
 
-const nebula1=
-    createNebula(
-        0x6633ff,
-        -30,
-        10,
-        -50,
-        35
-    );
+const nebula1=createNebula(-45,20,-50,0x635cff,25);
+const nebula2=createNebula(50,-20,-70,0xff55bb,30);
+const nebula3=createNebula(0,45,-100,0x33aaff,35);
+const nebula4=createNebula(-65,-35,-90,0xffd35a,22);
 
-const nebula2=
-    createNebula(
-        0xff4eae,
-        30,
-        -15,
-        -70,
-        40
-    );
+/* PLANETAS */
 
+function createPlanet(x,y,z,radius,color,ring=false){
 
-/* =====================================
-   PLANETAS
-===================================== */
+  const group=new THREE.Group();
 
-function createPlanet(
+  const geometry=new THREE.SphereGeometry(radius,40,40);
+
+  const material=new THREE.MeshStandardMaterial({
     color,
-    size,
-    x,
-    y,
-    z
-){
+    roughness:.75,
+    metalness:.05
+  });
 
-    const geometry=
-        new THREE.SphereGeometry(
-            size,
-            40,
-            40
-        );
+  const planet=new THREE.Mesh(geometry,material);
+  group.add(planet);
 
-    const material=
-        new THREE.MeshStandardMaterial({
-            color:color,
-            roughness:.8,
-            metalness:.1
-        });
+  /* atmósfera */
 
-    const planet=
-        new THREE.Mesh(
-            geometry,
-            material
-        );
+  const atmosphere=new THREE.Mesh(
+    new THREE.SphereGeometry(radius*1.08,32,32),
+    new THREE.MeshBasicMaterial({
+      color:0x8fbfff,
+      transparent:true,
+      opacity:.07,
+      side:THREE.BackSide
+    })
+  );
 
-    planet.position.set(x,y,z);
+  group.add(atmosphere);
 
-    scene.add(planet);
+  if(ring){
 
-    return planet;
+    const ringGeometry=new THREE.RingGeometry(
+      radius*1.45,
+      radius*2.05,
+      80
+    );
+
+    const ringMaterial=new THREE.MeshBasicMaterial({
+      color:0xdcbf8b,
+      transparent:true,
+      opacity:.45,
+      side:THREE.DoubleSide
+    });
+
+    const ringMesh=new THREE.Mesh(
+      ringGeometry,
+      ringMaterial
+    );
+
+    ringMesh.rotation.x=Math.PI/2.5;
+    group.add(ringMesh);
+  }
+
+  group.position.set(x,y,z);
+
+  scene.add(group);
+
+  return group;
 }
 
-const planet1=
-    createPlanet(
-        0x7647b8,
-        2.5,
-        -9,
-        4,
-        -12
-    );
+const planets=[
+  createPlanet(-32,10,-38,7,0x5d78a8,true),
+  createPlanet(30,15,-55,5,0xb36d58,false),
+  createPlanet(38,-25,-35,9,0x6b587e,true),
+  createPlanet(-45,-24,-60,4,0xc89d59,false),
+  createPlanet(5,35,-80,11,0x506d82,true),
+  createPlanet(65,5,-100,6,0x8875b7,false)
+];
 
-const planet2=
-    createPlanet(
-        0xc78648,
-        1.5,
-        9,
-        2,
-        -7
-    );
+/* LUNAS */
 
-const planet3=
-    createPlanet(
-        0x4267b5,
-        3.2,
-        11,
-        -6,
-        -18
-    );
+function moon(x,y,z,radius,color){
 
+  const mesh=new THREE.Mesh(
+    new THREE.SphereGeometry(radius,24,24),
+    new THREE.MeshStandardMaterial({
+      color,
+      roughness:1
+    })
+  );
 
-/* =====================================
-   FLORES 3D
-===================================== */
+  mesh.position.set(x,y,z);
+  scene.add(mesh);
 
-const flowers=[];
-
-function createFlower(
-    x,
-    y,
-    z,
-    number
-){
-
-    const group=
-        new THREE.Group();
-
-    group.position.set(x,y,z);
-
-    group.userData.number=number;
-    group.userData.locked=
-        number!==1;
-
-    /* PÉTALOS */
-
-    for(let i=0;i<6;i++){
-
-        const geometry=
-            new THREE.SphereGeometry(
-                1,
-                20,
-                12
-            );
-
-        const material=
-            new THREE.MeshStandardMaterial({
-                color:0xffd52f,
-                roughness:.45,
-                metalness:.05,
-                emissive:0x6b4500,
-                emissiveIntensity:.35
-            });
-
-        const petal=
-            new THREE.Mesh(
-                geometry,
-                material
-            );
-
-        const angle=
-            i*Math.PI/3;
-
-        petal.scale.set(
-            .65,
-            1.5,
-            .25
-        );
-
-        petal.position.x=
-            Math.cos(angle)*1.05;
-
-        petal.position.y=
-            Math.sin(angle)*1.05;
-
-        petal.rotation.z=
-            angle;
-
-        group.add(petal);
-    }
-
-    /* CENTRO */
-
-    const centerGeometry=
-        new THREE.SphereGeometry(
-            .65,
-            30,
-            30
-        );
-
-    const centerMaterial=
-        new THREE.MeshStandardMaterial({
-            color:0xd98d13,
-            emissive:0xffb300,
-            emissiveIntensity:.6
-        });
-
-    const center=
-        new THREE.Mesh(
-            centerGeometry,
-            centerMaterial
-        );
-
-    center.position.z=.3;
-
-    group.add(center);
-
-    /* BRILLO */
-
-    const glowGeometry=
-        new THREE.SphereGeometry(
-            2.4,
-            20,
-            20
-        );
-
-    const glowMaterial=
-        new THREE.MeshBasicMaterial({
-            color:0xffd93d,
-            transparent:true,
-            opacity:.08
-        });
-
-    const glow=
-        new THREE.Mesh(
-            glowGeometry,
-            glowMaterial
-        );
-
-    group.add(glow);
-
-    scene.add(group);
-
-    flowers.push(group);
-
-    return group;
+  return mesh;
 }
 
+moon(-23,8,-35,1.3,0xaaa9b5);
+moon(26,18,-50,.9,0xc2c0bb);
+moon(32,-19,-29,1.5,0xaaa5b8);
+moon(-41,-21,-54,.7,0xb8b1a0);
 
-/* POSICIONES */
+/* FLORES 3D */
 
-createFlower(-7,2,2,1);
-createFlower(7,0,-1,2);
-createFlower(-5,-5,1,3);
-createFlower(6,-5,-3,4);
+const flowerObjects=[];
 
+function createFlower(number,x,y,z,scale=1){
 
-/* =====================================
-   CONTROL TÁCTIL
-===================================== */
+  const group=new THREE.Group();
 
-let targetRotationX=0;
-let targetRotationY=0;
+  group.position.set(x,y,z);
+  group.scale.setScalar(scale);
 
-let startX=0;
-let startY=0;
+  group.userData.number=number;
 
-let dragging=false;
+  /* tallo */
 
-renderer.domElement.addEventListener(
-    "touchstart",
-    e=>{
+  const stem=new THREE.Mesh(
+    new THREE.CylinderGeometry(.08,.13,2.8,12),
+    new THREE.MeshStandardMaterial({
+      color:0x416b46,
+      roughness:.9
+    })
+  );
 
-        if(e.touches.length!==1) return;
+  stem.position.y=-1.35;
+  group.add(stem);
 
-        startX=e.touches[0].clientX;
-        startY=e.touches[0].clientY;
+  /* hojas */
 
-        dragging=true;
-    },
-    {passive:false}
+  for(let side of [-1,1]){
+
+    const leaf=new THREE.Mesh(
+      new THREE.SphereGeometry(.35,16,16),
+      new THREE.MeshStandardMaterial({
+        color:0x527f50,
+        roughness:.8
+      })
+    );
+
+    leaf.scale.set(1.5,.25,.55);
+    leaf.position.set(side*.35,-1.25,0);
+    leaf.rotation.z=side*.35;
+
+    group.add(leaf);
+  }
+
+  /* pétalos */
+
+  for(let i=0;i<10;i++){
+
+    const angle=(i/10)*Math.PI*2;
+
+    const petal=new THREE.Mesh(
+      new THREE.SphereGeometry(.72,24,24),
+      new THREE.MeshStandardMaterial({
+        color:0xffdf32,
+        roughness:.65,
+        emissive:0x4c3c00,
+        emissiveIntensity:.2
+      })
+    );
+
+    petal.scale.set(.62,1.45,.34);
+
+    petal.position.set(
+      Math.cos(angle)*.85,
+      .05+Math.sin(angle)*.15,
+      Math.sin(angle)*.85
+    );
+
+    petal.rotation.y=-angle;
+
+    group.add(petal);
+  }
+
+  /* centro */
+
+  const center=new THREE.Mesh(
+    new THREE.SphereGeometry(.58,28,28),
+    new THREE.MeshStandardMaterial({
+      color:0xffa900,
+      roughness:.5,
+      emissive:0x5a3200,
+      emissiveIntensity:.3
+    })
+  );
+
+  center.position.y=.05;
+  group.add(center);
+
+  /* halo */
+
+  const glow=new THREE.Mesh(
+    new THREE.SphereGeometry(1.8,24,24),
+    new THREE.MeshBasicMaterial({
+      color:0xffdf32,
+      transparent:true,
+      opacity:.07,
+      depthWrite:false
+    })
+  );
+
+  glow.position.y=.05;
+  group.add(glow);
+
+  scene.add(group);
+
+  flowerObjects.push(group);
+
+  return group;
+}
+
+/*
+  Las flores están MUY separadas.
+  La idea es que tengas que explorar.
+*/
+
+const flowers=[
+  createFlower(1,-18,5,-24,1.3),
+  createFlower(2,24,-4,-48,1.25),
+  createFlower(3,-34,-16,-62,1.4),
+  createFlower(4,40,22,-82,1.45)
+];
+
+/* LUCES DE LAS FLORES */
+
+flowers.forEach((flower,i)=>{
+
+  const light=new THREE.PointLight(
+    0xffd92e,
+    .9,
+    15
+  );
+
+  light.position.set(0,1,0);
+  flower.add(light);
+
+  flower.userData.light=light;
+
+});
+
+/* POLVO CÓSMICO */
+
+const dustGeometry=new THREE.BufferGeometry();
+const dustPositions=[];
+
+for(let i=0;i<900;i++){
+
+  const radius=20+Math.random()*100;
+  const angle=Math.random()*Math.PI*2;
+
+  dustPositions.push(
+    Math.cos(angle)*radius,
+    (Math.random()-.5)*80,
+    Math.sin(angle)*radius
+  );
+}
+
+dustGeometry.setAttribute(
+"position",
+new THREE.Float32BufferAttribute(dustPositions,3)
 );
 
-renderer.domElement.addEventListener(
-    "touchmove",
-    e=>{
-
-        if(!dragging || e.touches.length!==1)
-            return;
-
-        const x=e.touches[0].clientX;
-        const y=e.touches[0].clientY;
-
-        const dx=x-startX;
-        const dy=y-startY;
-
-        targetRotationY+=dx*.0008;
-        targetRotationX+=dy*.0005;
-
-        startX=x;
-        startY=y;
-
-        e.preventDefault();
-    },
-    {passive:false}
+const dust=new THREE.Points(
+dustGeometry,
+new THREE.PointsMaterial({
+  color:0xb6aaff,
+  size:.35,
+  transparent:true,
+  opacity:.45
+})
 );
 
-renderer.domElement.addEventListener(
-    "touchend",
-    ()=>dragging=false
-);
+scene.add(dust);
 
+/* INTERACCIÓN CON FLORES */
 
-/* =====================================
-   RATÓN
-===================================== */
-
-let mouseX=0;
-let mouseY=0;
-
-addEventListener(
-    "mousemove",
-    e=>{
-
-        mouseX=
-            (e.clientX/innerWidth-.5)*2;
-
-        mouseY=
-            (e.clientY/innerHeight-.5)*2;
-
-    }
-);
-
-
-/* =====================================
-   RAYCASTER
-===================================== */
-
-const raycaster=
-    new THREE.Raycaster();
-
-const pointer=
-    new THREE.Vector2();
-
+const raycaster=new THREE.Raycaster();
+const pointer=new THREE.Vector2();
 
 function checkFlower(clientX,clientY){
 
-    pointer.x=
-        (clientX/innerWidth)*2-1;
+  if(message.style.display==="flex") return;
+  if(finalMode) return;
 
-    pointer.y=
-        -(clientY/innerHeight)*2+1;
+  pointer.x=(clientX/innerWidth)*2-1;
+  pointer.y=-(clientY/innerHeight)*2+1;
 
-    raycaster.setFromCamera(
-        pointer,
-        camera
-    );
+  raycaster.setFromCamera(pointer,camera);
 
-    const objects=[];
+  const hits=raycaster.intersectObjects(
+    flowerObjects,
+    true
+  );
 
-    flowers.forEach(
-        flower=>{
-            flower.traverse(
-                obj=>{
-                    if(obj.isMesh)
-                        objects.push(obj);
-                }
-            );
-        }
-    );
+  if(!hits.length) return;
 
-    const hits=
-        raycaster.intersectObjects(
-            objects,
-            false
-        );
+  let obj=hits[0].object;
 
-    if(hits.length===0)
-        return;
+  while(obj && !obj.userData.number){
+    obj=obj.parent;
+  }
 
-    let object=
-        hits[0].object;
+  if(!obj) return;
 
-    while(
-        object.parent &&
-        !object.userData.number
-    ){
+  const number=obj.userData.number;
 
-        object=object.parent;
+  if(number!==unlocked){
 
-    }
+    hint.textContent=
+      `Todavía no... primero tienes que encontrar la flor ${unlocked} 🌼`;
 
-    if(!object.userData.number)
-        return;
+    hint.classList.add("show");
 
-    openMessage(
-        object.userData.number
-    );
+    setTimeout(()=>{
+      hint.classList.remove("show");
+    },2200);
+
+    return;
+  }
+
+  openFlower(number);
 }
-
-
-/* =====================================
-   TOQUE
-===================================== */
 
 renderer.domElement.addEventListener(
-    "click",
-    e=>{
-        checkFlower(
-            e.clientX,
-            e.clientY
-        );
-    }
+  "pointerup",
+  e=>{
+    checkFlower(e.clientX,e.clientY);
+  }
 );
 
+/* MENSAJES */
 
-/* =====================================
-   MENSAJES
-===================================== */
+function openFlower(number){
 
-const messages={
+  messageText.textContent=flowerMessages[number-1];
 
-1:{
-title:"Flor 1",
-text:"Se que quizá esto no es lo que te esperabas pero quería darte esto de una manera un poquito más especial y ya sabes, a mi estilo."
-},
+  message.style.display="flex";
 
-2:{
-title:"Flor 2",
-text:"Todo esto para recordarte de que los detalles típicos, se pueden modificar con un poquito más de esfuerzo para que tenga un toque un poco más personal y no sea tan básico como regalarte un ramo sin más."
-},
+  flowerObjects[number-1].userData.found=true;
 
-3:{
-title:"Flor 3",
-text:"Aunque quizá no te gusta tanto la idea de tener una página web en la que puedas ir viendo todo, pero tienes algo que no se irá nunca y podrás visitarlo cada vez que quieras. Pero con todo este rollo voy a la parte bonita jajajja."
-},
+  flowerObjects[number-1].scale.multiplyScalar(1.18);
 
-4:{
-title:"Flor 4",
-text:"Marina recio, sé que no es una fecha especial ni nada por el estilo pero es mi manera de demostrarte que no hay nada en el mundo que no quiera hacer por ti, ya que para mí, lo eres todo en este mundo. Y lo que siempre te digo y cosa que no quiero que transforme en algo típico sin sentimiento es que…"
+  if(number<4){
+    unlocked=number+1;
+  }else{
+    setTimeout(()=>{
+      finalMode=true;
+      finalText.style.display="flex";
+      hint.classList.remove("show");
+    },900);
+  }
 }
 
-};
+closeMessage.addEventListener("click",()=>{
 
-let currentFlower=1;
+  message.style.display="none";
 
+  if(unlocked<=4){
 
-/* =====================================
-   ABRIR MENSAJE
-===================================== */
+    hint.textContent=
+      `La flor ${unlocked} sigue en algún lugar de este universo... 🌼`;
 
-function openMessage(number){
+    hint.classList.add("show");
 
-    if(number!==currentFlower){
+    setTimeout(()=>{
+      hint.classList.remove("show");
+    },3000);
+  }
+});
 
-        showNotice(
-            "Busca primero la flor "+currentFlower+" 🌻"
-        );
+/* ENTRAR */
 
-        return;
-    }
+enter.addEventListener("click",()=>{
 
-    document.getElementById(
-        "messageTitle"
-    ).textContent=
-        messages[number].title;
+  started=true;
 
-    document.getElementById(
-        "messageText"
-    ).textContent=
-        messages[number].text;
+  intro.classList.add("hidden");
 
-    document.getElementById(
-        "message"
-    ).classList.add("show");
+  setTimeout(()=>{
+    hint.classList.add("show");
 
+    setTimeout(()=>{
+      hint.classList.remove("show");
+    },4500);
+  },900);
+
+});
+
+/* FINAL */
+
+let finalStart=null;
+
+function updateFinal(){
+
+  if(!finalMode) return;
+
+  /*
+    Cuando el usuario se acerca mucho a la zona
+    de la cuarta flor, empieza la secuencia final.
+  */
+
+  const distance=camera.position.distanceTo(
+    flowers[3].position
+  );
+
+  if(distance<25){
+
+    finalProgress+=.004;
+
+    finalText.innerHTML=
+      `<div>Acércate un poco más... 🌼</div>`;
+
+  }
+
+  if(distance<14){
+
+    finalProgress+=.008;
+
+    finalText.innerHTML=
+      `<div>Ya casi... 🤍</div>`;
+
+  }
+
+  if(finalProgress>1.3){
+
+    love.style.display="flex";
+    finalMode=false;
+  }
 }
 
+/* ANIMACIÓN */
 
-/* =====================================
-   CERRAR MENSAJE
-===================================== */
-
-function closeMessage(){
-
-    document.getElementById(
-        "message"
-    ).classList.remove("show");
-
-    flowers[currentFlower-1]
-        .userData.found=true;
-
-    if(currentFlower<4){
-
-        currentFlower++;
-
-        flowers[currentFlower-1]
-            .userData.locked=false;
-
-        showNotice(
-            "Hay otra flor esperándote... 🌻"
-        );
-
-    }else{
-
-        setTimeout(
-            startZoom,
-            800
-        );
-
-    }
-
-}
-
-
-/* =====================================
-   AVISO
-===================================== */
-
-function showNotice(text){
-
-    const n=
-        document.getElementById("notice");
-
-    n.textContent=text;
-
-    n.classList.add("show");
-
-    setTimeout(
-        ()=>n.classList.remove("show"),
-        2200
-    );
-
-}
-
-
-/* =====================================
-   INTRO
-===================================== */
-
-function enterUniverse(){
-
-    document.getElementById(
-        "intro"
-    ).classList.add("hide");
-
-    setTimeout(
-        ()=>{
-            document.getElementById(
-                "hint"
-            ).style.opacity=".55";
-        },
-        1200
-    );
-
-}
-
-
-/* =====================================
-   ZOOM FINAL
-===================================== */
-
-let zoomLevel=1;
-let startDistance=null;
-let revealed=false;
-
-const zoom=
-    document.getElementById("zoom");
-
-
-function startZoom(){
-
-    zoom.classList.add("show");
-
-}
-
-
-/* PINCH */
-
-zoom.addEventListener(
-    "touchstart",
-    e=>{
-
-        if(e.touches.length===2){
-
-            startDistance=
-                distance(
-                    e.touches[0],
-                    e.touches[1]
-                );
-
-        }
-
-    },
-    {passive:false}
-);
-
-
-zoom.addEventListener(
-    "touchmove",
-    e=>{
-
-        if(e.touches.length!==2)
-            return;
-
-        e.preventDefault();
-
-        const d=
-            distance(
-                e.touches[0],
-                e.touches[1]
-            );
-
-        if(startDistance===null){
-
-            startDistance=d;
-            return;
-
-        }
-
-        const change=
-            d/startDistance;
-
-        if(change>1)
-            zoomLevel+=.025;
-
-        zoomLevel=
-            Math.min(
-                4,
-                Math.max(
-                    1,
-                    zoomLevel
-                )
-            );
-
-        if(
-            zoomLevel>=3 &&
-            !revealed
-        ){
-
-            revealed=true;
-
-            zoom.classList.add(
-                "revealed"
-            );
-
-            document.getElementById(
-                "zoomText"
-            ).textContent=
-                "Para ti, Marina 🩵";
-
-        }
-
-        startDistance=d;
-
-    },
-    {passive:false}
-);
-
-
-zoom.addEventListener(
-    "touchend",
-    ()=>{
-        startDistance=null;
-    }
-);
-
-
-function distance(a,b){
-
-    const dx=
-        a.clientX-b.clientX;
-
-    const dy=
-        a.clientY-b.clientY;
-
-    return Math.sqrt(
-        dx*dx+dy*dy
-    );
-
-}
-
-
-/* =====================================
-   ANIMACIÓN
-===================================== */
-
-let time=0;
+const clock=new THREE.Clock();
 
 function animate(){
 
-    requestAnimationFrame(
-        animate
-    );
+  requestAnimationFrame(animate);
 
-    time+=.005;
+  const t=clock.getElapsedTime();
 
-    /* universo */
+  /* movimiento de estrellas */
 
-    starField.rotation.y+=.00012;
-    starField.rotation.x+=.00003;
+  stars.rotation.y=t*.002;
+  blueStars.rotation.y=-t*.0015;
+  pinkStars.rotation.y=t*.001;
+  goldStars.rotation.y=-t*.0008;
 
-    nebula1.rotation.y+=.0005;
-    nebula2.rotation.y-=.0004;
+  /* nebulosas */
 
-    planet1.rotation.y+=.003;
-    planet2.rotation.y+=.005;
-    planet3.rotation.y+=.002;
+  nebula1.rotation.y=t*.008;
+  nebula2.rotation.y=-t*.006;
+  nebula3.rotation.x=t*.005;
+  nebula4.rotation.y=t*.007;
 
-    /* movimiento de cámara */
+  /* planetas */
 
-    camera.rotation.y+=
-        (targetRotationY-camera.rotation.y)*.04;
+  planets.forEach((planet,i)=>{
 
-    camera.rotation.x+=
-        (targetRotationX-camera.rotation.x)*.04;
+    planet.rotation.y=t*(.03+i*.008);
 
-    camera.position.x+=
-        (mouseX*1.2-camera.position.x)*.015;
+    planet.position.y +=
+      Math.sin(t*.2+i)*.0015;
+  });
 
-    camera.position.y+=
-        (-mouseY*0.8-camera.position.y)*.015;
+  /* flores */
 
-    /* flores */
+  flowerObjects.forEach((flower,i)=>{
 
-    flowers.forEach(
-        (flower,i)=>{
+    flower.rotation.y=
+      t*(.12+i*.025);
 
-            flower.rotation.y+=.006;
+    flower.position.y +=
+      Math.sin(t*.7+i)*.002;
 
-            flower.rotation.z=
-                Math.sin(
-                    time*2+i
-                )*.08;
+    if(flower.userData.found){
 
-            flower.position.y+=
-                Math.sin(
-                    time*1.5+i
-                )*.002;
+      flower.userData.light.intensity=
+        1.8+Math.sin(t*4)*.6;
 
-            if(flower.userData.locked){
+    }else{
 
-                flower.traverse(
-                    obj=>{
-                        if(
-                            obj.material &&
-                            obj.material.emissive
-                        ){
+      flower.userData.light.intensity=
+        .65+Math.sin(t*2+i)*.2;
+    }
+  });
 
-                            obj.material.emissiveIntensity=.08;
+  /* polvo */
 
-                        }
-                    }
-                );
+  dust.rotation.y=t*.004;
 
-            }else{
+  updateFinal();
 
-                flower.traverse(
-                    obj=>{
-                        if(
-                            obj.material &&
-                            obj.material.emissive
-                        ){
-
-                            obj.material.emissiveIntensity=.4;
-
-                        }
-                    }
-                );
-
-            }
-
-        }
-    );
-
-    renderer.render(
-        scene,
-        camera
-    );
-
+  renderer.render(scene,camera);
 }
 
 animate();
 
+/* RESIZE */
 
-/* =====================================
-   RESIZE
-===================================== */
+window.addEventListener("resize",()=>{
 
-addEventListener(
-    "resize",
-    ()=>{
+  camera.aspect=innerWidth/innerHeight;
+  camera.updateProjectionMatrix();
 
-        camera.aspect=
-            innerWidth/innerHeight;
+  renderer.setSize(
+    innerWidth,
+    innerHeight
+  );
 
-        camera.updateProjectionMatrix();
+});
 
-        renderer.setSize(
-            innerWidth,
-            innerHeight
-        );
+/* MENSAJE INICIAL DE CONTROL */
 
-    }
-);
+setTimeout(()=>{
+
+  if(!started) return;
+
+  hint.innerHTML=
+    `Explora libremente 🌌<br>
+     <small>Arrastra para mirar · Pellizca para acercarte · Toca las flores</small>`;
+
+},1000);
 
 </script>
 
