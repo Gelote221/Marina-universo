@@ -6,333 +6,649 @@
 <title>Marina ✨</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: Georgia, "Times New Roman", serif;
-    background: #02020d;
-    color: white;
-    touch-action: none;
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#01010a;
+    color:white;
+    font-family:Georgia,"Times New Roman",serif;
+    touch-action:none;
 }
 
-/* UNIVERSO */
+/* =========================
+   UNIVERSO
+========================= */
 
-#universe {
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
+#universe{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
     background:
-        radial-gradient(circle at 50% 45%, #171044 0%, #08051e 38%, #02020d 78%);
+        radial-gradient(circle at 50% 45%,#21155c 0%,#0c0730 35%,#030314 72%,#010108 100%);
+    transition:transform 1.8s ease, filter 1.8s ease;
 }
 
-.nebula {
-    position: absolute;
-    width: 80vw;
-    height: 80vw;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: .25;
-    pointer-events: none;
+#universe.zooming{
+    transform:scale(1.25);
+    filter:brightness(1.15);
 }
 
-.nebula.one {
-    background: #633cff;
-    left: -25vw;
-    top: 10vh;
+.nebula{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    pointer-events:none;
+    opacity:.25;
+    animation:nebulaMove 12s ease-in-out infinite alternate;
 }
 
-.nebula.two {
-    background: #e45b9d;
-    right: -30vw;
-    bottom: -20vh;
+.nebula.one{
+    width:90vw;
+    height:70vw;
+    left:-35vw;
+    top:5vh;
+    background:#754cff;
 }
 
-/* ESTRELLAS */
-
-.stars {
-    position: absolute;
-    inset: 0;
+.nebula.two{
+    width:90vw;
+    height:80vw;
+    right:-40vw;
+    bottom:-25vh;
+    background:#e95caa;
+    animation-delay:3s;
 }
 
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle 2s infinite alternate;
+.nebula.three{
+    width:70vw;
+    height:70vw;
+    left:30vw;
+    top:35vh;
+    background:#287cff;
+    opacity:.12;
+    animation-delay:6s;
 }
 
-@keyframes twinkle {
-    from { opacity: .2; transform: scale(.7); }
-    to { opacity: 1; transform: scale(1.5); }
+@keyframes nebulaMove{
+    from{transform:translate(0,0) scale(1)}
+    to{transform:translate(7vw,-4vh) scale(1.12)}
 }
 
-/* PLANETAS */
+/* =========================
+   ESTRELLAS
+========================= */
 
-.planet {
-    position: absolute;
-    border-radius: 50%;
-    opacity: .75;
-    box-shadow: 0 0 35px rgba(255,255,255,.12);
+#stars{
+    position:absolute;
+    inset:0;
 }
 
-.planet.one {
-    width: 90px;
-    height: 90px;
-    background: radial-gradient(circle at 30% 30%, #f6c1ff, #633a9e 55%, #201340);
-    left: 8%;
-    top: 16%;
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:white;
+    animation:twinkle var(--speed) ease-in-out infinite alternate;
 }
 
-.planet.two {
-    width: 55px;
-    height: 55px;
-    background: radial-gradient(circle at 30% 30%, #ffe6a6, #a96b32 55%, #3a1d19);
-    right: 12%;
-    top: 25%;
-}
-
-.planet.three {
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle at 35% 30%, #b7d8ff, #3b5e9b 50%, #101b45);
-    right: -35px;
-    bottom: 8%;
-}
-
-/* TÍTULO */
-
-.title {
-    position: absolute;
-    top: 7%;
-    width: 100%;
-    text-align: center;
-    z-index: 10;
-    pointer-events: none;
-}
-
-.title h1 {
-    font-size: clamp(42px, 13vw, 90px);
-    font-weight: normal;
-    letter-spacing: 8px;
-    text-shadow:
-        0 0 10px rgba(255,255,255,.8),
-        0 0 30px rgba(200,170,255,.7);
-}
-
-.title p {
-    margin-top: 8px;
-    font-size: 14px;
-    letter-spacing: 3px;
-    opacity: .7;
-}
-
-/* FLORES */
-
-.flower {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    z-index: 20;
-    transition: transform .4s ease;
-    animation: float 4s ease-in-out infinite;
-}
-
-.flower:hover {
-    transform: scale(1.15);
-}
-
-.flower .center {
-    position: absolute;
-    width: 23px;
-    height: 23px;
-    background: #e69b18;
-    border-radius: 50%;
-    left: 29px;
-    top: 29px;
-    z-index: 3;
-    box-shadow: 0 0 18px #ffd35a;
-}
-
-.petal {
-    position: absolute;
-    width: 29px;
-    height: 42px;
-    background: linear-gradient(#fff26b, #e6a919);
-    border-radius: 50% 50% 45% 45%;
-    left: 25px;
-    top: 19px;
-    transform-origin: 15px 21px;
-    box-shadow: 0 0 15px rgba(255,210,60,.55);
-}
-
-.p1 { transform: rotate(0deg) translateY(-19px); }
-.p2 { transform: rotate(60deg) translateY(-19px); }
-.p3 { transform: rotate(120deg) translateY(-19px); }
-.p4 { transform: rotate(180deg) translateY(-19px); }
-.p5 { transform: rotate(240deg) translateY(-19px); }
-.p6 { transform: rotate(300deg) translateY(-19px); }
-
-.flower-number {
-    position: absolute;
-    bottom: -25px;
-    width: 100%;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    font-size: 13px;
-    opacity: .8;
-}
-
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-12px); }
-}
-
-.f1 {
-    left: 15%;
-    top: 40%;
-}
-
-.f2 {
-    right: 17%;
-    top: 48%;
-    animation-delay: .8s;
-}
-
-.f3 {
-    left: 22%;
-    bottom: 16%;
-    animation-delay: 1.5s;
-}
-
-.f4 {
-    right: 18%;
-    bottom: 18%;
-    animation-delay: 2.2s;
-}
-
-/* MENSAJE */
-
-.message-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: rgba(2,2,13,.93);
-    backdrop-filter: blur(12px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
-}
-
-.message-screen.show {
-    display: flex;
-    animation: appear .6s ease;
-}
-
-.message {
-    max-width: 650px;
-    text-align: center;
-    padding: 35px 25px;
-}
-
-.message-flower {
-    transform: scale(.7);
-    margin: 0 auto 20px;
-}
-
-.message h2 {
-    font-size: 28px;
-    font-weight: normal;
-    margin-bottom: 25px;
-    color: #ffe76a;
-    text-shadow: 0 0 15px rgba(255,220,70,.5);
-}
-
-.message p {
-    font-size: 19px;
-    line-height: 1.7;
-    color: #fff;
-}
-
-.close {
-    margin-top: 35px;
-    border: 1px solid rgba(255,255,255,.35);
-    background: rgba(255,255,255,.08);
-    color: white;
-    border-radius: 30px;
-    padding: 12px 28px;
-    font-size: 15px;
-    cursor: pointer;
-}
-
-.close:active {
-    transform: scale(.95);
-}
-
-/* FINAL */
-
-#finalFlower {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    background: #02020d;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#finalFlower.show {
-    display: flex;
-}
-
-.final-flower {
-    transform: scale(2);
-}
-
-.love {
-    margin-top: 65px;
-    font-size: clamp(38px, 11vw, 80px);
-    letter-spacing: 8px;
-    text-shadow:
-        0 0 10px #fff,
-        0 0 35px #7edcff;
-    animation: loveAppear 2s ease forwards;
-}
-
-@keyframes loveAppear {
-    from {
-        opacity: 0;
-        transform: scale(.5);
+@keyframes twinkle{
+    from{
+        opacity:.15;
+        transform:scale(.5);
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
+    to{
+        opacity:1;
+        transform:scale(1.8);
     }
+}
+
+/* =========================
+   PLANETAS
+========================= */
+
+.planet{
+    position:absolute;
+    border-radius:50%;
+    pointer-events:none;
+    box-shadow:
+        0 0 30px rgba(255,255,255,.12),
+        inset -15px -15px 30px rgba(0,0,0,.35);
+}
+
+.planet.one{
+    width:95px;
+    height:95px;
+    left:5%;
+    top:18%;
+    background:
+        radial-gradient(circle at 30% 25%,#ffd9ff,#9d62db 45%,#27144c 75%);
+    animation:planetFloat 8s ease-in-out infinite;
+}
+
+.planet.two{
+    width:58px;
+    height:58px;
+    right:10%;
+    top:28%;
+    background:
+        radial-gradient(circle at 30% 25%,#fff1bd,#d48745 48%,#47231b);
+    animation:planetFloat 10s ease-in-out infinite reverse;
+}
+
+.planet.three{
+    width:130px;
+    height:130px;
+    right:-45px;
+    bottom:7%;
+    background:
+        radial-gradient(circle at 30% 25%,#d5e7ff,#5277c5 48%,#111c4a);
+    animation:planetFloat 11s ease-in-out infinite;
+}
+
+.planet.three:after{
+    content:"";
+    position:absolute;
+    width:170px;
+    height:35px;
+    border:2px solid rgba(210,225,255,.25);
+    border-radius:50%;
+    top:45px;
+    left:-20px;
+    transform:rotate(-18deg);
+}
+
+@keyframes planetFloat{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-18px) rotate(5deg)}
+}
+
+/* =========================
+   INTRO
+========================= */
+
+#intro{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background:#01010a;
+    transition:opacity 1.5s ease,transform 1.5s ease;
+}
+
+#intro.hidden{
+    opacity:0;
+    transform:scale(1.7);
+    pointer-events:none;
+}
+
+.intro-title{
+    font-size:clamp(55px,18vw,110px);
+    font-weight:normal;
+    letter-spacing:10px;
+    text-shadow:
+        0 0 10px white,
+        0 0 35px #a98cff,
+        0 0 70px #7254ff;
+    animation:introGlow 3s ease-in-out infinite alternate;
+}
+
+.intro-subtitle{
+    margin-top:18px;
+    font-size:14px;
+    letter-spacing:4px;
+    opacity:.65;
+}
+
+.intro-button{
+    margin-top:45px;
+    padding:14px 30px;
+    border-radius:40px;
+    border:1px solid rgba(255,255,255,.3);
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-family:Georgia,serif;
+    font-size:15px;
+    backdrop-filter:blur(10px);
+    animation:pulseButton 2s infinite;
+}
+
+@keyframes introGlow{
+    from{filter:brightness(.9)}
+    to{filter:brightness(1.3)}
+}
+
+@keyframes pulseButton{
+    0%,100%{box-shadow:0 0 0 rgba(255,255,255,0)}
+    50%{box-shadow:0 0 30px rgba(180,150,255,.25)}
+}
+
+/* =========================
+   TITULO
+========================= */
+
+.title{
+    position:absolute;
+    top:6%;
+    width:100%;
+    text-align:center;
+    z-index:10;
+    pointer-events:none;
+}
+
+.title h1{
+    font-size:clamp(40px,13vw,90px);
+    font-weight:normal;
+    letter-spacing:8px;
+    text-shadow:
+        0 0 10px white,
+        0 0 30px #a68cff,
+        0 0 55px #694fff;
+}
+
+.title p{
+    margin-top:8px;
+    font-size:13px;
+    letter-spacing:3px;
+    opacity:.65;
+}
+
+/* =========================
+   INDICADOR
+========================= */
+
+.hint{
+    position:absolute;
+    left:50%;
+    bottom:5%;
+    transform:translateX(-50%);
+    z-index:15;
+    text-align:center;
+    font-size:12px;
+    letter-spacing:2px;
+    opacity:.5;
+    pointer-events:none;
+    white-space:nowrap;
+}
+
+/* =========================
+   FLORES
+========================= */
+
+.flower{
+    position:absolute;
+    width:82px;
+    height:82px;
+    border:0;
+    background:transparent;
+    z-index:30;
+    cursor:pointer;
+    animation:flowerFloat 4s ease-in-out infinite;
+    transition:filter .4s,opacity .4s;
+}
+
+.flower:not(.locked):active{
+    transform:scale(.9);
+}
+
+.flower.locked{
+    opacity:.35;
+    filter:grayscale(.7);
+}
+
+.flower.found{
+    filter:drop-shadow(0 0 18px #ffe96b);
+}
+
+.flower .center{
+    position:absolute;
+    width:23px;
+    height:23px;
+    left:29px;
+    top:29px;
+    border-radius:50%;
+    background:#e7a51b;
+    box-shadow:0 0 20px #ffd94d;
+    z-index:5;
+}
+
+.petal{
+    position:absolute;
+    width:29px;
+    height:42px;
+    left:25px;
+    top:19px;
+    border-radius:50%;
+    background:linear-gradient(#fff77d,#e6a817);
+    transform-origin:15px 21px;
+    box-shadow:0 0 14px rgba(255,215,70,.5);
+    transition:transform .7s cubic-bezier(.2,.8,.2,1);
+}
+
+.p1{transform:rotate(0deg) translateY(-19px)}
+.p2{transform:rotate(60deg) translateY(-19px)}
+.p3{transform:rotate(120deg) translateY(-19px)}
+.p4{transform:rotate(180deg) translateY(-19px)}
+.p5{transform:rotate(240deg) translateY(-19px)}
+.p6{transform:rotate(300deg) translateY(-19px)}
+
+.flower.opening .p1{transform:rotate(-35deg) translateY(-31px) scale(1.1)}
+.flower.opening .p2{transform:rotate(25deg) translateY(-31px) scale(1.1)}
+.flower.opening .p3{transform:rotate(95deg) translateY(-31px) scale(1.1)}
+.flower.opening .p4{transform:rotate(175deg) translateY(-31px) scale(1.1)}
+.flower.opening .p5{transform:rotate(245deg) translateY(-31px) scale(1.1)}
+.flower.opening .p6{transform:rotate(315deg) translateY(-31px) scale(1.1)}
+
+.flower-number{
+    position:absolute;
+    top:88px;
+    width:100%;
+    text-align:center;
+    font-family:Arial,sans-serif;
+    font-size:13px;
+    color:#fff;
+    opacity:.8;
+}
+
+@keyframes flowerFloat{
+    0%,100%{margin-top:0}
+    50%{margin-top:-12px}
+}
+
+/* POSICIONES */
+
+.f1{
+    left:13%;
+    top:38%;
+}
+
+.f2{
+    right:13%;
+    top:47%;
+    animation-delay:.7s;
+}
+
+.f3{
+    left:20%;
+    bottom:15%;
+    animation-delay:1.4s;
+}
+
+.f4{
+    right:17%;
+    bottom:16%;
+    animation-delay:2.1s;
+}
+
+/* =========================
+   MENSAJE
+========================= */
+
+#messageScreen{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+    background:rgba(1,1,10,.86);
+    backdrop-filter:blur(18px);
+}
+
+#messageScreen.show{
+    display:flex;
+    animation:screenIn .6s ease;
+}
+
+.message{
+    width:min(650px,100%);
+    max-height:90vh;
+    overflow:auto;
+    text-align:center;
+    padding:30px 22px;
+}
+
+.message-flower{
+    position:relative;
+    margin:0 auto 35px;
+    transform:scale(.8);
+    animation:none;
+}
+
+.message h2{
+    color:#ffe86b;
+    font-weight:normal;
+    font-size:27px;
+    margin-bottom:22px;
+    text-shadow:0 0 18px rgba(255,220,70,.6);
+}
+
+.message p{
+    font-size:18px;
+    line-height:1.75;
+    color:#fff;
+}
+
+.close{
+    margin-top:30px;
+    padding:13px 26px;
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:30px;
+    background:rgba(255,255,255,.08);
+    color:white;
+    font-family:Georgia,serif;
+    font-size:14px;
+}
+
+@keyframes screenIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+/* =========================
+   AVISO
+========================= */
+
+#notice{
+    position:fixed;
+    left:50%;
+    bottom:12%;
+    transform:translate(-50%,30px);
+    z-index:2000;
+    padding:12px 20px;
+    border-radius:30px;
+    background:rgba(10,8,35,.9);
+    border:1px solid rgba(255,255,255,.18);
+    backdrop-filter:blur(10px);
+    font-size:13px;
+    opacity:0;
+    pointer-events:none;
+    transition:.5s;
+    white-space:nowrap;
+}
+
+#notice.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* =========================
+   ZOOM FINAL
+========================= */
+
+#zoomScene{
+    position:fixed;
+    inset:0;
+    z-index:1500;
+    display:none;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at center,#171044 0%,#070521 45%,#01010a 100%);
+}
+
+#zoomScene.active{
+    display:block;
+}
+
+.zoom-star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+}
+
+#zoomWorld{
+    position:absolute;
+    width:100%;
+    height:100%;
+    transform-origin:center;
+    transition:transform .15s linear;
+}
+
+.zoom-final-flower{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:120px;
+    height:120px;
+    transform:translate(-50%,-50%) scale(.45);
+    opacity:.15;
+    filter:drop-shadow(0 0 10px #ffe66b);
+    transition:opacity 1.5s,filter 1.5s;
+}
+
+#zoomScene.revealed .zoom-final-flower{
+    opacity:1;
+    filter:drop-shadow(0 0 50px #ffe66b);
+}
+
+.zoom-final-flower .petal{
+    width:42px;
+    height:62px;
+    left:39px;
+    top:29px;
+    transform-origin:21px 31px;
+    background:linear-gradient(#fff77d,#e7a817);
+}
+
+.zoom-final-flower .p1{transform:rotate(0deg) translateY(-28px)}
+.zoom-final-flower .p2{transform:rotate(60deg) translateY(-28px)}
+.zoom-final-flower .p3{transform:rotate(120deg) translateY(-28px)}
+.zoom-final-flower .p4{transform:rotate(180deg) translateY(-28px)}
+.zoom-final-flower .p5{transform:rotate(240deg) translateY(-28px)}
+.zoom-final-flower .p6{transform:rotate(300deg) translateY(-28px)}
+
+.zoom-final-flower .center{
+    width:32px;
+    height:32px;
+    left:44px;
+    top:44px;
+}
+
+.zoom-instruction{
+    position:absolute;
+    left:50%;
+    top:10%;
+    transform:translateX(-50%);
+    width:90%;
+    text-align:center;
+    font-size:14px;
+    letter-spacing:2px;
+    opacity:.65;
+}
+
+#love{
+    position:absolute;
+    left:50%;
+    top:70%;
+    transform:translate(-50%,-50%) scale(.4);
+    opacity:0;
+    font-size:clamp(42px,12vw,90px);
+    white-space:nowrap;
+    letter-spacing:7px;
+    text-shadow:
+        0 0 10px white,
+        0 0 30px #8ce3ff,
+        0 0 65px #42bfff;
+    transition:opacity 2s,transform 2s;
+}
+
+#zoomScene.revealed #love{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+}
+
+/* =========================
+   FINAL
+========================= */
+
+#finalScreen{
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    background:#01010a;
+}
+
+#finalScreen.show{
+    display:flex;
+    animation:finalIn 2s ease;
+}
+
+.final-text{
+    font-size:clamp(45px,14vw,100px);
+    letter-spacing:8px;
+    text-shadow:
+        0 0 10px white,
+        0 0 35px #8ce3ff,
+        0 0 70px #42bfff;
+    animation:finalGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes finalIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+@keyframes finalGlow{
+    from{filter:brightness(.9)}
+    to{filter:brightness(1.35)}
 }
 </style>
 </head>
 
 <body>
 
+<!-- INTRO -->
+<div id="intro">
+    <div class="intro-title">Marina</div>
+    <div class="intro-subtitle">un pequeño universo para ti</div>
+    <button class="intro-button" onclick="startUniverse()">Entrar ✨</button>
+</div>
+
+<!-- UNIVERSO -->
 <div id="universe">
 
     <div class="nebula one"></div>
     <div class="nebula two"></div>
+    <div class="nebula three"></div>
 
-    <div class="stars" id="stars"></div>
+    <div id="stars"></div>
 
     <div class="planet one"></div>
     <div class="planet two"></div>
@@ -340,11 +656,11 @@ html, body {
 
     <div class="title">
         <h1>Marina</h1>
-        <p>un pequeño universo para ti</p>
+        <p>encuentra las cuatro flores</p>
     </div>
 
     <!-- FLOR 1 -->
-    <button class="flower f1" onclick="openMessage(1)">
+    <button class="flower f1" id="flower1" onclick="openMessage(1)">
         <span class="petal p1"></span>
         <span class="petal p2"></span>
         <span class="petal p3"></span>
@@ -356,7 +672,7 @@ html, body {
     </button>
 
     <!-- FLOR 2 -->
-    <button class="flower f2" onclick="openMessage(2)">
+    <button class="flower f2 locked" id="flower2" onclick="openMessage(2)">
         <span class="petal p1"></span>
         <span class="petal p2"></span>
         <span class="petal p3"></span>
@@ -368,7 +684,7 @@ html, body {
     </button>
 
     <!-- FLOR 3 -->
-    <button class="flower f3" onclick="openMessage(3)">
+    <button class="flower f3 locked" id="flower3" onclick="openMessage(3)">
         <span class="petal p1"></span>
         <span class="petal p2"></span>
         <span class="petal p3"></span>
@@ -380,7 +696,7 @@ html, body {
     </button>
 
     <!-- FLOR 4 -->
-    <button class="flower f4" onclick="openMessage(4)">
+    <button class="flower f4 locked" id="flower4" onclick="openMessage(4)">
         <span class="petal p1"></span>
         <span class="petal p2"></span>
         <span class="petal p3"></span>
@@ -391,14 +707,18 @@ html, body {
         <span class="flower-number">④</span>
     </button>
 
+    <div class="hint">
+        Cada flor guarda una parte de esto ✨
+    </div>
+
 </div>
 
-<!-- VENTANA DE MENSAJES -->
+<!-- MENSAJE -->
+<div id="messageScreen">
 
-<div class="message-screen" id="messageScreen">
     <div class="message">
 
-        <div class="flower message-flower">
+        <div class="flower message-flower opening">
             <span class="petal p1"></span>
             <span class="petal p2"></span>
             <span class="petal p3"></span>
@@ -409,6 +729,7 @@ html, body {
         </div>
 
         <h2 id="messageTitle"></h2>
+
         <p id="messageText"></p>
 
         <button class="close" onclick="closeMessage()">
@@ -416,125 +737,353 @@ html, body {
         </button>
 
     </div>
+
 </div>
 
-<!-- FINAL -->
+<!-- ESCENA DE ZOOM -->
+<div id="zoomScene">
 
-<div id="finalFlower">
+    <div id="zoomWorld">
 
-    <div class="flower final-flower">
-        <span class="petal p1"></span>
-        <span class="petal p2"></span>
-        <span class="petal p3"></span>
-        <span class="petal p4"></span>
-        <span class="petal p5"></span>
-        <span class="petal p6"></span>
-        <span class="center"></span>
+        <div class="zoom-final-flower flower opening">
+
+            <span class="petal p1"></span>
+            <span class="petal p2"></span>
+            <span class="petal p3"></span>
+            <span class="petal p4"></span>
+            <span class="petal p5"></span>
+            <span class="petal p6"></span>
+
+            <span class="center"></span>
+
+        </div>
+
     </div>
 
-    <div class="love">
+    <div class="zoom-instruction" id="zoomInstruction">
+        Ahora acércate con dos dedos... 🤍
+    </div>
+
+    <div id="love">
         TE AMO 🩵
     </div>
 
 </div>
 
+<!-- FINAL -->
+<div id="finalScreen">
+    <div class="final-text">TE AMO 🩵</div>
+</div>
+
+<div id="notice"></div>
+
 <script>
 
-/* CREAR ESTRELLAS */
+/* =========================
+   ESTRELLAS
+========================= */
 
 const stars = document.getElementById("stars");
 
-for(let i = 0; i < 180; i++){
+for(let i=0;i<260;i++){
 
-    const star = document.createElement("span");
+    const star=document.createElement("span");
 
-    star.className = "star";
+    star.className="star";
 
-    star.style.left = Math.random() * 100 + "%";
-    star.style.top = Math.random() * 100 + "%";
+    star.style.left=Math.random()*100+"%";
+    star.style.top=Math.random()*100+"%";
 
-    star.style.animationDelay =
-        Math.random() * 3 + "s";
+    star.style.setProperty(
+        "--speed",
+        (1.5+Math.random()*4)+"s"
+    );
 
-    star.style.opacity =
-        Math.random();
+    star.style.animationDelay=
+        Math.random()*4+"s";
+
+    const size=Math.random()<.9 ? 1.5 : 3;
+
+    star.style.width=size+"px";
+    star.style.height=size+"px";
 
     stars.appendChild(star);
 }
 
 
-/* MENSAJES */
+/* =========================
+   MENSAJES
+========================= */
 
-const messages = {
+const messages={
 
-    1: {
-        title: "Flor 1",
-        text: "Se que quizá esto no es lo que te esperabas pero quería darte esto de una manera un poquito más especial y ya sabes, a mi estilo."
-    },
+1:{
+title:"Flor 1",
+text:"Se que quizá esto no es lo que te esperabas pero quería darte esto de una manera un poquito más especial y ya sabes, a mi estilo."
+},
 
-    2: {
-        title: "Flor 2",
-        text: "Todo esto para recordarte de que los detalles típicos, se pueden modificar con un poquito más de esfuerzo para que tenga un toque un poco más personal y no sea tan básico como regalarte un ramo sin más."
-    },
+2:{
+title:"Flor 2",
+text:"Todo esto para recordarte de que los detalles típicos, se pueden modificar con un poquito más de esfuerzo para que tenga un toque un poco más personal y no sea tan básico como regalarte un ramo sin más."
+},
 
-    3: {
-        title: "Flor 3",
-        text: "Aunque quizá no te gusta tanto la idea de tener una página web en la que puedas ir viendo todo, pero tienes algo que no se irá nunca y podrás visitarlo cada vez que quieras. Pero con todo este rollo voy a la parte bonita jajajja."
-    },
+3:{
+title:"Flor 3",
+text:"Aunque quizá no te gusta tanto la idea de tener una página web en la que puedas ir viendo todo, pero tienes algo que no se irá nunca y podrás visitarlo cada vez que quieras. Pero con todo este rollo voy a la parte bonita jajajja."
+},
 
-    4: {
-        title: "Flor 4",
-        text: "Marina recio, sé que no es una fecha especial ni nada por el estilo pero es mi manera de demostrarte que no hay nada en el mundo que no quiera hacer por ti, ya que para mí, lo eres todo en este mundo. Y lo que siempre te digo y cosa que no quiero que transforme en algo típico sin sentimiento es que…"
-    }
+4:{
+title:"Flor 4",
+text:"Marina recio, sé que no es una fecha especial ni nada por el estilo pero es mi manera de demostrarte que no hay nada en el mundo que no quiera hacer por ti, ya que para mí, lo eres todo en este mundo. Y lo que siempre te digo y cosa que no quiero que transforme en algo típico sin sentimiento es que…"
+}
 
 };
 
+let currentFlower=1;
 
-/* CONTROL DEL ORDEN */
 
-let currentFlower = 1;
+/* =========================
+   ENTRAR
+========================= */
+
+function startUniverse(){
+
+    document.getElementById("intro")
+        .classList.add("hidden");
+
+}
+
+
+/* =========================
+   AVISO
+========================= */
+
+function showNotice(text){
+
+    const notice=document.getElementById("notice");
+
+    notice.textContent=text;
+
+    notice.classList.add("show");
+
+    setTimeout(()=>{
+        notice.classList.remove("show");
+    },2200);
+}
+
+
+/* =========================
+   ABRIR FLORES
+========================= */
 
 function openMessage(number){
 
-    if(number !== currentFlower){
+    if(number!==currentFlower){
 
-        alert(
-            "Hay una flor que deberías abrir antes 🌻"
+        showNotice(
+            "Busca primero la flor "+currentFlower+" 🌻"
         );
 
         return;
     }
 
-    document.getElementById("messageTitle").textContent =
-        messages[number].title;
+    const flower=
+        document.getElementById("flower"+number);
 
-    document.getElementById("messageText").textContent =
-        messages[number].text;
+    flower.classList.add("opening");
 
-    document.getElementById("messageScreen")
-        .classList.add("show");
+    setTimeout(()=>{
+
+        document.getElementById("messageTitle")
+            .textContent=messages[number].title;
+
+        document.getElementById("messageText")
+            .textContent=messages[number].text;
+
+        document.getElementById("messageScreen")
+            .classList.add("show");
+
+    },500);
+
 }
 
+
+/* =========================
+   CERRAR MENSAJE
+========================= */
 
 function closeMessage(){
 
     document.getElementById("messageScreen")
         .classList.remove("show");
 
-    if(currentFlower < 4){
+    const oldFlower=
+        document.getElementById("flower"+currentFlower);
+
+    oldFlower.classList.add("found");
+
+    if(currentFlower<4){
 
         currentFlower++;
 
-    } else {
+        const nextFlower=
+            document.getElementById("flower"+currentFlower);
 
-        setTimeout(() => {
+        nextFlower.classList.remove("locked");
 
-            document.getElementById("finalFlower")
-                .classList.add("show");
+        showNotice(
+            "Hay otra flor esperándote... 🌻"
+        );
 
-        }, 700);
+    }else{
+
+        setTimeout(startZoomScene,800);
 
     }
+
+}
+
+
+/* =========================
+   ESCENA DE ZOOM
+========================= */
+
+const zoomScene=
+    document.getElementById("zoomScene");
+
+const zoomWorld=
+    document.getElementById("zoomWorld");
+
+const zoomInstruction=
+    document.getElementById("zoomInstruction");
+
+let zoomLevel=1;
+
+let startDistance=null;
+
+let revealed=false;
+
+
+function startZoomScene(){
+
+    zoomScene.classList.add("active");
+
+    document.getElementById("universe")
+        .classList.add("zooming");
+
+}
+
+
+/* =========================
+   PINCH ZOOM
+========================= */
+
+zoomScene.addEventListener(
+    "touchstart",
+    function(e){
+
+        if(e.touches.length===2){
+
+            startDistance=
+                getDistance(e.touches[0],e.touches[1]);
+
+        }
+
+    },
+    {passive:false}
+);
+
+
+zoomScene.addEventListener(
+    "touchmove",
+    function(e){
+
+        if(e.touches.length!==2) return;
+
+        e.preventDefault();
+
+        const distance=
+            getDistance(e.touches[0],e.touches[1]);
+
+        if(startDistance===null){
+
+            startDistance=distance;
+
+            return;
+
+        }
+
+        const change=
+            distance/startDistance;
+
+        if(change>1){
+
+            zoomLevel+=0.018;
+
+        }else if(change<1){
+
+            zoomLevel-=0.008;
+
+        }
+
+        zoomLevel=
+            Math.max(1,Math.min(3.8,zoomLevel));
+
+        zoomWorld.style.transform=
+            "scale("+zoomLevel+")";
+
+        startDistance=distance;
+
+        if(zoomLevel>=3 && !revealed){
+
+            revealFinal();
+
+        }
+
+    },
+    {passive:false}
+);
+
+
+zoomScene.addEventListener(
+    "touchend",
+    function(){
+
+        startDistance=null;
+
+    }
+);
+
+
+function getDistance(a,b){
+
+    const dx=a.clientX-b.clientX;
+    const dy=a.clientY-b.clientY;
+
+    return Math.sqrt(dx*dx+dy*dy);
+
+}
+
+
+/* =========================
+   REVELACIÓN FINAL
+========================= */
+
+function revealFinal(){
+
+    revealed=true;
+
+    zoomScene.classList.add("revealed");
+
+    zoomInstruction.textContent=
+        "Acércate un poquito más... ✨";
+
+    setTimeout(()=>{
+
+        zoomInstruction.textContent=
+            "🩵";
+
+    },2500);
 
 }
 
